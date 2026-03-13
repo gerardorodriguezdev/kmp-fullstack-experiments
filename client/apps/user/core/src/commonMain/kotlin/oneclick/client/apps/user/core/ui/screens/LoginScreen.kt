@@ -30,6 +30,7 @@ import oneclick.client.apps.user.ui.components.DialogBox
 import oneclick.client.apps.user.ui.components.ScreenBox
 import oneclick.client.apps.user.ui.models.Field
 import oneclick.client.apps.user.ui.previews.dev.ScreenPreviewComposable
+import oneclick.client.apps.user.ui.previews.providers.base.PreviewModel
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -147,7 +148,7 @@ data class LoginScreenState(
 )
 
 @Composable
-fun LoginScreenPreview(previewModel: oneclick.client.apps.user.ui.previews.providers.base.PreviewModel<LoginScreenState>) {
+fun LoginScreenPreview(previewModel: PreviewModel<LoginScreenState>) {
     ScreenPreviewComposable(previewModel) {
         LoginScreen(
             state = previewModel.model,
