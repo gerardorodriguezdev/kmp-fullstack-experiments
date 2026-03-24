@@ -82,7 +82,7 @@ To select which environment to run, it uses [Chamaleon](https://github.com/gerar
 
 Server
 
-- runAll: Runs the server using docker compose (and redis/postgres if needed automatically)
+- runContainers: Runs the server using docker compose (and redis/postgres if needed automatically)
 - runJvm: Runs the server with the JVM (requires using the Chamaleon in-memory environment)
 
 User Client
@@ -93,7 +93,7 @@ User Client
 
 Home Client
 
-- runAll: Runs the client using docker
+- runContainer: Runs the client using docker
 - runJvm: Runs the client with the Jvm
 
 ### Environments
