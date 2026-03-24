@@ -12,7 +12,7 @@ production.environment.chamaleon.json
 staging.environment.chamaleon.json
 
 # Android
-**/debug
+**/debug/
 *.apk
 output-metadata.json
 
