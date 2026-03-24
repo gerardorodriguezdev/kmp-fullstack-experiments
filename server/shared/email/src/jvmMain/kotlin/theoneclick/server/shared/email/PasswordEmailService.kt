@@ -9,17 +9,33 @@ import oneclick.shared.logging.AppLogger
 import theoneclick.server.shared.email.base.EmailService
 import java.util.*
 
-class GmailEmailService(
-    private val fromEmail: String,
-    private val toEmail: String,
-    private val fromEmailPassword: String,
+class PasswordEmailService(
+    private val serverUsername: String,
+    private val serverPassword: String,
+    private val adminEmail: String,
+    private val smtpHost: String,
     private val dispatchersProvider: DispatchersProvider,
     private val appLogger: AppLogger,
 ) : EmailService {
 
+    private val sessionProperties = Properties().apply {
+        put("mail.smtp.auth", "true")
+        put("mail.smtp.starttls.enable", "true")
+        put("mail.smtp.host", smtpHost)
+        put("mail.smtp.port", "587")
+        put("mail.smtp.ssl.trust", smtpHost)
+        put("mail.smtp.connectiontimeout", "10000")
+        put("mail.smtp.timeout", "10000")
+        put("mail.smtp.writetimeout", "10000")
+    }
+
+    private val session = Session.getInstance(
+        sessionProperties,
+        PasswordAuthenticator()
+    )
+
     override suspend fun sendEmail(subject: String, body: String): Boolean =
         withContext(dispatchersProvider.io()) {
-            val session = session()
             val message = message(session = session, subject = subject, body = body)
             try {
                 Transport.send(message)
@@ -30,18 +46,12 @@ class GmailEmailService(
             }
         }
 
-    private fun session(): Session =
-        Session.getInstance(
-            sessionProperties,
-            PasswordAuthenticator()
-        )
-
     private fun message(session: Session, subject: String, body: String): MimeMessage =
         MimeMessage(session).apply {
-            setFrom(InternetAddress(fromEmail))
+            setFrom(InternetAddress(serverUsername))
             setRecipients(
                 Message.RecipientType.TO,
-                InternetAddress.parse(toEmail)
+                InternetAddress.parse(adminEmail)
             )
             setSubject(subject)
             setText(body, CONTENT_CHARSET)
@@ -49,22 +59,11 @@ class GmailEmailService(
 
     private inner class PasswordAuthenticator : Authenticator() {
         override fun getPasswordAuthentication(): PasswordAuthentication {
-            return PasswordAuthentication(fromEmail, fromEmailPassword)
+            return PasswordAuthentication(serverUsername, serverPassword)
         }
     }
 
     private companion object {
         const val CONTENT_CHARSET = "UTF-8"
-
-        val sessionProperties = Properties().apply {
-            put("mail.smtp.auth", "true")
-            put("mail.smtp.starttls.enable", "true")
-            put("mail.smtp.host", "smtp.gmail.com")
-            put("mail.smtp.port", "587")
-            put("mail.smtp.ssl.trust", "smtp.gmail.com")
-            put("mail.smtp.connectiontimeout", "10000")
-            put("mail.smtp.timeout", "10000")
-            put("mail.smtp.writetimeout", "10000")
-        }
     }
 }

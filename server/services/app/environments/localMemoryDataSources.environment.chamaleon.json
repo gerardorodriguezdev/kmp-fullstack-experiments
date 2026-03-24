@@ -99,16 +99,20 @@
         "value": "5a9b2616505a9aebb886ea6fcdb63960"
       },
       {
-        "name": "FROM_EMAIL",
+        "name": "SENDER_USERNAME",
         "value": "email@email.com"
       },
       {
-        "name": "TO_EMAIL",
+        "name": "ADMIN_EMAIL",
         "value": "email@email.com"
       },
       {
-        "name": "EMAIL_PASSWORD",
+        "name": "SENDER_PASSWORD",
         "value": "password123"
+      },
+      {
+        "name": "SMTP_HOST",
+        "value": "smtp.gmail.com"
       },
       {
         "name": "METRICS_PORT",

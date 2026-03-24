@@ -122,17 +122,22 @@
       "nullable": true
     },
     {
-      "name": "FROM_EMAIL",
+      "name": "SENDER_USERNAME",
       "propertyType": "String",
       "nullable": true
     },
     {
-      "name": "TO_EMAIL",
+      "name": "ADMIN_EMAIL",
       "propertyType": "String",
       "nullable": true
     },
     {
-      "name": "EMAIL_PASSWORD",
+      "name": "SENDER_PASSWORD",
+      "propertyType": "String",
+      "nullable": true
+    },
+    {
+      "name": "SMTP_HOST",
       "propertyType": "String",
       "nullable": true
     },

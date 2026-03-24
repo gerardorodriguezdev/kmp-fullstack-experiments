@@ -26,7 +26,7 @@ import oneclick.shared.security.DefaultSecureRandomProvider
 import oneclick.shared.timeProvider.SystemTimeProvider
 import oneclick.shared.timeProvider.TimeProvider
 import theoneclick.server.shared.email.DebugEmailService
-import theoneclick.server.shared.email.GmailEmailService
+import theoneclick.server.shared.email.PasswordEmailService
 
 fun main() {
     val environment = Environment()
@@ -74,10 +74,11 @@ fun main() {
     val emailService = if (environment.useLogEmailService) {
         DebugEmailService(appLogger)
     } else {
-        GmailEmailService(
-            fromEmail = environment.fromEmail,
-            toEmail = environment.toEmail,
-            fromEmailPassword = environment.emailPassword,
+        PasswordEmailService(
+            serverUsername = environment.senderUsername,
+            adminEmail = environment.adminEmail,
+            serverPassword = environment.senderPassword,
+            smtpHost = environment.smtpHost,
             dispatchersProvider = dispatchersProvider,
             appLogger = appLogger,
         )
@@ -245,9 +246,10 @@ private class Environment(
     val redisUrl: String = System.getenv("REDIS_URL"),
 
     // Email
-    val fromEmail: String = System.getenv("FROM_EMAIL"),
-    val toEmail: String = System.getenv("TO_EMAIL"),
-    val emailPassword: String = System.getenv("EMAIL_PASSWORD"),
+    val senderUsername: String = System.getenv("SENDER_USERNAME"),
+    val adminEmail: String = System.getenv("ADMIN_EMAIL"),
+    val senderPassword: String = System.getenv("SENDER_PASSWORD"),
+    val smtpHost: String = System.getenv("SMTP_HOST"),
 
     // Debug
     val useMemoryDataSources: Boolean = System.getenv("USE_MEMORY_DATA_SOURCES") == "true",
