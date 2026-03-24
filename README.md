@@ -2,23 +2,23 @@ Experimental home automation project
 
 ## Basic functionality
 
-1) Arduino device sends BLE event to a Raspberry Pi
-2) Client Jvm app running in the Raspberry Pi receives the event and sends it to the server
-3) The Ktor Jvm server receives the event and stores it in a redis/postgres database for the specific user
-4) The client app (Android/iOS/Browser) retrieves the devices and events from the server for the specific user
+1) Bluetooth device sends event to **Home app**
+2) **Home app** receives the event and sends it to **App service**
+3) **App service** receives the event and stores it in a redis/postgres database for the specific user
+4) The **User app** retrieves the devices and events from the **App service** for the specific user
 
 ## Pieces
 
-- Server (Ktor Jvm servers)
+- Server
     - App service
-    - Mock service (a mock of the app service)
+        - Jvm target
 - Client
     - User app
         - Android target
         - iOS target
         - Browser target (Wasm)
     - Home app
-        - Raspberry Pi target (Jvm)
+        - Jvm target
 
 ## Features
 
@@ -50,7 +50,7 @@ User client
 
 Home client
 
-- Raspberry Pi target (Jvm)
+- Jvm target
 - User authentication from the command line
 - Bluetooth communication through Kable
 - Manual setup of Jib for docker image creation
@@ -70,14 +70,13 @@ Gradle plugins
 CI
 
 - Creation of environments
-- Creation and publishing of docker images
+- Creation of artifacts for each target
 
 ## How to run?
 
 The project is thought to be able to be run locally and mock certain pieces if required
 
-To select which environment to run, it uses [Chamaleon](https://github.com/gerardorodriguezdev/chamaleon) so select the
-environment and use the IntelliJ run configurations available
+To select which environment to run, it uses [Chamaleon](https://github.com/gerardorodriguezdev/chamaleon)
 
 ### Important run configurations
 
