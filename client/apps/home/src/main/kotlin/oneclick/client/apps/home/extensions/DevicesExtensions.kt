@@ -14,13 +14,13 @@ internal fun scanner(serviceUuid: Uuid): Scanner<PlatformAdvertisement> = Scanne
 }
 
 @OptIn(ExperimentalUuidApi::class, ExperimentalApi::class)
-internal fun humidityCharacteristic(serviceUuid: Uuid) = characteristicOf(
+internal fun humidityCharacteristic(serviceUuid: Uuid): Characteristic = characteristicOf(
     service = serviceUuid,
     characteristic = Uuid.characteristic("humidity")
 )
 
 @OptIn(ExperimentalUuidApi::class, ExperimentalApi::class)
-internal fun serialNumberCharacteristic(serviceUuid: Uuid) = characteristicOf(
+internal fun serialNumberCharacteristic(serviceUuid: Uuid): Characteristic = characteristicOf(
     service = serviceUuid,
     characteristic = Uuid.characteristic("serial_number_string")
 )

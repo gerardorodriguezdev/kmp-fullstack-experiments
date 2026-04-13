@@ -13,6 +13,7 @@ import oneclick.shared.contracts.core.models.Uuid
 import oneclick.shared.contracts.homes.models.Device
 import oneclick.shared.dispatchers.platform.DispatchersProvider
 import oneclick.shared.logging.AppLogger
+import kotlin.time.Duration.Companion.milliseconds
 
 internal interface DevicesController {
     suspend fun scan(): Boolean
@@ -22,7 +23,7 @@ internal class FakeDevicesController(
     private val devicesStore: DevicesStore,
 ) : DevicesController {
     override suspend fun scan(): Boolean {
-        delay(10_000)
+        delay(10_000.milliseconds)
         devicesStore.updateDevice(
             Device.WaterSensor.unsafe(
                 id = Uuid.unsafe("7c0b3f78-0844-418a-827d-8a64e8d3d761"),
@@ -47,7 +48,7 @@ internal class BluetoothDevicesController(
         return withContext(dispatchersProvider.io()) {
             try {
                 val advertisements = mutableListOf<Advertisement>()
-                withTimeoutOrNull(SCAN_TIMEOUT) {
+                withTimeoutOrNull(SCAN_TIMEOUT.milliseconds) {
                     WaterSensor.scanner.advertisements.collect { advertisement ->
                         advertisements.add(advertisement)
                     }
@@ -66,7 +67,7 @@ internal class BluetoothDevicesController(
                                     is State.Connected -> connectionDelay = STARTING_CONNECTION_DELAY
                                     is State.Disconnected -> {
                                         waterSensor.connect()
-                                        delay(connectionDelay)
+                                        delay(connectionDelay.milliseconds)
                                         connectionDelay *= 2
                                     }
 
