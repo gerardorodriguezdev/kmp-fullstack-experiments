@@ -4,6 +4,7 @@
 **/build/
 !src/**/build/
 local.properties
+.pio
 
 # All
 **/local/
