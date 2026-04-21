@@ -1,4 +1,4 @@
-Experimental home automation project
+Home automation project to experiment with fullstack kmp
 
 ## Basic functionality
 
