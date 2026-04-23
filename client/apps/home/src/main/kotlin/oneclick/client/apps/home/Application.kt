@@ -1,6 +1,7 @@
 package oneclick.client.apps.home
 
 import io.ktor.http.*
+import kotlinx.coroutines.CoroutineScope
 import oneclick.client.apps.home.commands.DefaultCommandsHandler
 import oneclick.client.apps.home.controllers.BluetoothDevicesController
 import oneclick.client.apps.home.controllers.FakeDevicesController
@@ -105,7 +106,7 @@ fun main() {
             BluetoothDevicesController(
                 appLogger = appLogger,
                 devicesStore = devicesStore,
-                dispatchersProvider = dispatchersProvider,
+                backgroundScope = CoroutineScope(dispatchersProvider.io()),
                 bluetoothSensorsProvider = DSDBluetoothSensor::dsdBluetoothSensors, //TODO: Update
             )
         }

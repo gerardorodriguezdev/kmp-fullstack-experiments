@@ -19,6 +19,7 @@ internal fun BluetoothSensor.toDevice(state: State): Device? =
         SOUND_ALARM -> null
     }
 
+//TODO: Reuse
 private val waterSensorRange = PositiveIntRange.unsafe(
     start = NonNegativeInt.zero,
     end = NonNegativeInt.unsafe(100)

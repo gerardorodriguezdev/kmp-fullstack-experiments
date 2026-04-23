@@ -68,6 +68,7 @@ kmp-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable"
 kmp-window-classes = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "kmp-window-classes" }
 kmp-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kmp-kotlin-api" }
 kmp-test-turbine = { module = "app.cash.turbine:turbine", version.ref = "kmp-test-turbine" }
+kmp-test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kmp-coroutines" }
 kmp-kotlin-inject = { module = "me.tatarka.inject:kotlin-inject-runtime", version.ref = "kmp-kotlin-inject" }
 kmp-kotlin-inject-kmp = { module = "me.tatarka.inject:kotlin-inject-runtime-kmp", version.ref = "kmp-kotlin-inject" }
 kmp-sqldelight = { module = "app.cash.sqldelight:jdbc-driver", version.ref = "kmp-sqldelight" }

@@ -8,6 +8,7 @@ import oneclick.shared.contracts.core.models.Uuid
 import oneclick.shared.contracts.homes.models.Device
 import kotlin.time.Duration.Companion.milliseconds
 
+//TODO: Reuse
 internal class FakeDevicesController(
     private val devicesStore: DevicesStore,
 ) : DevicesController {

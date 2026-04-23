@@ -14,7 +14,7 @@ import oneclick.shared.contracts.core.models.Uuid.Companion.toUuid
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.uuid.ExperimentalUuidApi
 
-internal sealed interface BluetoothSensor {
+internal interface BluetoothSensor {
     val id: Uuid
     val connection: StateFlow<Connection>
     val state: Flow<State>
