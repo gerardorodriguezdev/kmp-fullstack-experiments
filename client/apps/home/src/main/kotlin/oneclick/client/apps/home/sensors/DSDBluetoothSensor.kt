@@ -1,35 +1,35 @@
-package oneclick.client.apps.home.devices
+package oneclick.client.apps.home.sensors
 
 import com.juul.kable.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeoutOrNull
 import oneclick.client.apps.home.models.CommunicationType
 import oneclick.client.apps.home.models.DeviceType
+import oneclick.client.apps.home.sensors.BluetoothSensor.Companion.bluetoothScanner
+import oneclick.client.apps.home.sensors.BluetoothSensor.Companion.bluetoothSensors
+import oneclick.client.apps.home.sensors.BluetoothSensor.Connection
 import oneclick.shared.contracts.core.models.Uuid
-import oneclick.shared.contracts.core.models.Uuid.Companion.toUuid
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.uuid.ExperimentalUuidApi
 
-internal class BluetoothSensor(
-    val id: Uuid,
+internal class DSDBluetoothSensor(
+    override val id: Uuid,
     private val peripheral: Peripheral,
-) {
+) : BluetoothSensor {
     private val _connection = MutableStateFlow(Connection.DISCONNECTED)
-    val connection: StateFlow<Connection> = _connection
+    override val connection: StateFlow<Connection> = _connection
 
     private val deviceType = MutableStateFlow<DeviceType?>(null)
     private val rawState = MutableStateFlow<String?>(null)
 
-    val state: Flow<State?> = combine(
+    override val state: Flow<BluetoothSensor.State> = combine(
         deviceType.filterNotNull(),
         rawState.filterNotNull(),
     ) { deviceType, state ->
-        State(deviceType, state)
+        BluetoothSensor.State(deviceType, state)
     }
 
     @OptIn(ExperimentalApi::class)
-    suspend fun connect() =
+    override suspend fun connect() {
         try {
             peripheral.connect().launch {
                 peripheral
@@ -52,6 +52,8 @@ internal class BluetoothSensor(
             peripheral.disconnect()
         }
 
+    }
+
     private suspend fun setCommunicationType(communicationType: CommunicationType) {
         peripheral.write(
             customCharacteristic,
@@ -60,52 +62,18 @@ internal class BluetoothSensor(
         )
     }
 
-    data class State(
-        val deviceType: DeviceType,
-        val value: String,
-    )
-
-    enum class Connection {
-        CONNECTED,
-        DISCONNECTED,
-    }
-
     @OptIn(ExperimentalUuidApi::class, ExperimentalApi::class)
     companion object {
-        private const val NAME_PREFIX = "OneClick"
         private val customServiceUuid = Bluetooth.BaseUuid + 0xFFE0
         private val customCharacteristicUuid = Bluetooth.BaseUuid + 0xFFE1
         private val customCharacteristic = characteristicOf(
             service = customServiceUuid,
             characteristic = customCharacteristicUuid,
         )
-        private const val SCAN_TIMEOUT = 10_000L
-        private val scanner = Scanner {
-            filters {
-                match {
-                    services = listOf(customServiceUuid)
-                    name = Filter.Name.Prefix(NAME_PREFIX)
-                }
-            }
-        }
-
-        suspend fun bluetoothSensors(): List<BluetoothSensor> =
-            buildList {
-                withTimeoutOrNull(SCAN_TIMEOUT.milliseconds) {
-                    scanner
-                        .advertisements
-                        .mapNotNull { advertisement ->
-                            val peripheral = Peripheral(advertisement)
-                            val uuid = peripheral.identifier.toString().toUuid()
-                            //TODO: Log bad
-                            uuid?.let {
-                                BluetoothSensor(uuid, peripheral)
-                            }
-                        }
-                        .collect { bluetoothSensor ->
-                            add(bluetoothSensor)
-                        }
-                }
+        private val dsdBluetoothScanner = bluetoothScanner(customServiceUuid)
+        suspend fun dsdBluetoothSensors(): List<BluetoothSensor> =
+            bluetoothSensors(dsdBluetoothScanner) { id, peripheral ->
+                DSDBluetoothSensor(id, peripheral)
             }
     }
 }

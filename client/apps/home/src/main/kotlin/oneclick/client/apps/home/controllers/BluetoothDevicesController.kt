@@ -1,13 +1,12 @@
 package oneclick.client.apps.home.controllers
 
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import oneclick.client.apps.home.dataSources.base.DevicesStore
-import oneclick.client.apps.home.devices.BluetoothSensor
-import oneclick.client.apps.home.devices.BluetoothSensor.Connection
 import oneclick.client.apps.home.mappers.toDevice
+import oneclick.client.apps.home.sensors.BluetoothSensor
+import oneclick.client.apps.home.sensors.BluetoothSensor.Connection
 import oneclick.shared.dispatchers.platform.DispatchersProvider
 import oneclick.shared.logging.AppLogger
 import kotlin.time.Duration.Companion.milliseconds
@@ -16,10 +15,11 @@ internal class BluetoothDevicesController(
     private val appLogger: AppLogger,
     private val devicesStore: DevicesStore,
     private val dispatchersProvider: DispatchersProvider,
+    private val bluetoothSensorsProvider: suspend () -> List<BluetoothSensor>,
 ) : DevicesController {
 
     override suspend fun scan(): Boolean {
-        val bluetoothSensors = BluetoothSensor.bluetoothSensors()
+        val bluetoothSensors = bluetoothSensorsProvider()
 
         return withContext(dispatchersProvider.io()) {
             try {
@@ -49,7 +49,6 @@ internal class BluetoothDevicesController(
                         launch {
                             bluetoothSensor
                                 .state
-                                .filterNotNull()
                                 .collect { state ->
                                     val device = bluetoothSensor.toDevice(state)
                                     if (device == null) {

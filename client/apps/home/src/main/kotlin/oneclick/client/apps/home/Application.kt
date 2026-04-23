@@ -6,6 +6,7 @@ import oneclick.client.apps.home.controllers.BluetoothDevicesController
 import oneclick.client.apps.home.controllers.FakeDevicesController
 import oneclick.client.apps.home.dataSources.MemoryDevicesStore
 import oneclick.client.apps.home.dataSources.RemoteHomeDataSource
+import oneclick.client.apps.home.sensors.DSDBluetoothSensor
 import oneclick.client.apps.home.utils.FileAppLogger
 import oneclick.client.shared.network.dataSources.DataStoreEncryptedPreferences
 import oneclick.client.shared.network.dataSources.LocalTokenDataSource
@@ -105,6 +106,7 @@ fun main() {
                 appLogger = appLogger,
                 devicesStore = devicesStore,
                 dispatchersProvider = dispatchersProvider,
+                bluetoothSensorsProvider = DSDBluetoothSensor::dsdBluetoothSensors, //TODO: Update
             )
         }
     ).start()
