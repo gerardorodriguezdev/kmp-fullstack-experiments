@@ -1,4 +1,4 @@
-package oneclick.client.apps.home.devices
+package oneclick.client.apps.home.controllers
 
 internal interface DevicesController {
     suspend fun scan(): Boolean

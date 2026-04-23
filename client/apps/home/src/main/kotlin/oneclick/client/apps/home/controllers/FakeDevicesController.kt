@@ -1,4 +1,4 @@
-package oneclick.client.apps.home.devices
+package oneclick.client.apps.home.controllers
 
 import kotlinx.coroutines.delay
 import oneclick.client.apps.home.dataSources.base.DevicesStore

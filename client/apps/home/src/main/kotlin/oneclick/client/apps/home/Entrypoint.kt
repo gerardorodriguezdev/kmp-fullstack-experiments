@@ -4,9 +4,9 @@ import kotlinx.coroutines.*
 import oneclick.client.apps.home.commands.CommandsHandler
 import oneclick.client.apps.home.commands.CommandsParser
 import oneclick.client.apps.home.commands.CommandsParser.CommandParserResult
+import oneclick.client.apps.home.controllers.DevicesController
 import oneclick.client.apps.home.dataSources.base.DevicesStore
 import oneclick.client.apps.home.dataSources.base.HomeDataSource
-import oneclick.client.apps.home.devices.DevicesController
 import oneclick.client.shared.network.models.UserLoggedResult
 import oneclick.client.shared.network.platform.AuthenticationDataSource
 import oneclick.shared.contracts.homes.models.requests.SyncDevicesRequest
