@@ -6,9 +6,9 @@
 constexpr unsigned int COMMUNICATION_TYPE_CODE_SIZE = 2;
 
 enum class CommunicationType {
-    INVALID,
-    META_DATA,
-    DATA,
+    META_DATA = 0,
+    DATA = 1,
+    INVALID = 2,
 };
 
 namespace detail {
@@ -32,4 +32,9 @@ constexpr CommunicationType stringToCommunicationType(const char *string) {
 
     return CommunicationType::INVALID;
 }
+
+constexpr const char *communicationTypeToString(const CommunicationType type) {
+    return detail::communicationTypeEntries[static_cast<int>(type)].code;
+}
+
 #endif //CommunicationType_h
