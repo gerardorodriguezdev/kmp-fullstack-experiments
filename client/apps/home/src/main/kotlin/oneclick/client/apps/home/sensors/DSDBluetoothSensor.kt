@@ -4,10 +4,13 @@ import com.juul.kable.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import oneclick.client.apps.home.models.CommunicationType
+import oneclick.client.apps.home.models.CommunicationType.Companion.toCommunicationType
 import oneclick.client.apps.home.models.DeviceType
+import oneclick.client.apps.home.models.DeviceType.Companion.toDeviceType
 import oneclick.client.apps.home.sensors.BluetoothSensor.Companion.bluetoothScanner
 import oneclick.client.apps.home.sensors.BluetoothSensor.Companion.bluetoothSensors
 import oneclick.client.apps.home.sensors.BluetoothSensor.Connection
+import oneclick.client.apps.home.sensors.BluetoothSensor.State
 import oneclick.shared.contracts.core.models.Uuid
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -15,43 +18,86 @@ internal class DSDBluetoothSensor(
     override val id: Uuid,
     private val peripheral: Peripheral,
 ) : BluetoothSensor {
-    private val _connection = MutableStateFlow(Connection.DISCONNECTED)
-    override val connection: StateFlow<Connection> = _connection
-
     private val deviceType = MutableStateFlow<DeviceType?>(null)
-    private val rawState = MutableStateFlow<String?>(null)
+    private val rawData = MutableStateFlow<String?>(null)
 
-    override val state: Flow<BluetoothSensor.State> = combine(
+    override val connection: Flow<Connection> =
+        peripheral.state.map { state ->
+            when (state) {
+                is State.Connected -> Connection.CONNECTED
+                is State.Disconnected -> Connection.DISCONNECTED
+                else -> Connection.DISCONNECTED
+            }
+        }
+
+    override val state: Flow<State> = combine(
         deviceType.filterNotNull(),
-        rawState.filterNotNull(),
-    ) { deviceType, state ->
-        BluetoothSensor.State(deviceType, state)
-    }
+        rawData.filterNotNull(),
+        ::State,
+    )
 
     @OptIn(ExperimentalApi::class)
     override suspend fun connect() {
         try {
-            peripheral.connect().launch {
-                peripheral
-                    .observe(customCharacteristic)
-                    .collect { byteArray ->
-                        val abc = byteArray.decodeToString()
-                        //TODO: if type update type
-                        //TODO: if state update state
+            val scope = peripheral.connect()
+            with(scope) {
+                launch {
+                    if (deviceType.value == null) {
+                        setCommunicationType(CommunicationType.META_DATA)
+                    } else {
+                        setCommunicationType(CommunicationType.DATA)
                     }
 
-                //TODO: Update/Review
-                if (deviceType.value == null) {
-                    setCommunicationType(CommunicationType.META_DATA)
-                } else {
-                    setCommunicationType(CommunicationType.DATA)
+                    peripheral
+                        .observe(customCharacteristic)
+                        .collect { byteArray ->
+                            val response = byteArray.decodeToString()
+
+                            val communicationTypeString = response.substringBefore(":")
+                            val communicationType = communicationTypeString.toCommunicationType()
+                            when (communicationType) {
+                                null -> Unit
+                                CommunicationType.META_DATA -> {
+                                    val metaData = response.substringAfter(":")
+                                    val entries = metaData
+                                        .split(",")
+                                        .map { entry ->
+                                            entry.substringBefore("=") to entry.substringAfter("=")
+                                        }
+
+                                    val deviceType = entries
+                                        .firstOrNull { (code, _) -> code == "T" }
+                                        ?.second
+                                        ?.toDeviceType()
+
+                                    deviceType?.let {
+                                        this@DSDBluetoothSensor.deviceType.value = deviceType
+                                        setCommunicationType(CommunicationType.DATA)
+                                    }
+                                }
+
+                                CommunicationType.DATA -> {
+                                    val dat = response.substringAfter(":")
+                                    val entries = dat
+                                        .split(",")
+                                        .map { entry ->
+                                            entry.substringBefore("=") to entry.substringAfter("=")
+                                        }
+                                    val data = entries
+                                        .firstOrNull { (code, _) -> code == "D" }
+                                        ?.second
+
+                                    data?.let {
+                                        this@DSDBluetoothSensor.rawData.value = data
+                                    }
+                                }
+                            }
+                        }
                 }
             }
         } catch (_: Exception) {
-            //TODO: Log
             peripheral.disconnect()
         }
-
     }
 
     private suspend fun setCommunicationType(communicationType: CommunicationType) {
@@ -71,9 +117,7 @@ internal class DSDBluetoothSensor(
             characteristic = customCharacteristicUuid,
         )
         private val dsdBluetoothScanner = bluetoothScanner(customServiceUuid)
-        suspend fun dsdBluetoothSensors(): List<BluetoothSensor> =
-            bluetoothSensors(dsdBluetoothScanner) { id, peripheral ->
-                DSDBluetoothSensor(id, peripheral)
-            }
+        fun dsdBluetoothSensors(): Flow<BluetoothSensor> =
+            bluetoothSensors(dsdBluetoothScanner, ::DSDBluetoothSensor)
     }
 }

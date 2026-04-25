@@ -12,7 +12,7 @@ import oneclick.shared.contracts.homes.models.Device
 internal fun BluetoothSensor.toDevice(state: State): Device? =
     when (state.deviceType) {
         WATER_LEVEL -> {
-            val level = state.value.toIntOrNull()?.toNonNegativeInt() ?: return null
+            val level = state.data.toIntOrNull()?.toNonNegativeInt() ?: return null
             Device.WaterSensor.waterSensor(id, waterSensorRange, level)
         }
 

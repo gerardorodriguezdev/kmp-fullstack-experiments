@@ -4,10 +4,11 @@ import com.juul.kable.Filter
 import com.juul.kable.Peripheral
 import com.juul.kable.PlatformAdvertisement
 import com.juul.kable.Scanner
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.withTimeoutOrNull
+import kotlinx.coroutines.flow.timeout
 import oneclick.client.apps.home.models.DeviceType
 import oneclick.shared.contracts.core.models.Uuid
 import oneclick.shared.contracts.core.models.Uuid.Companion.toUuid
@@ -16,19 +17,18 @@ import kotlin.uuid.ExperimentalUuidApi
 
 internal interface BluetoothSensor {
     val id: Uuid
-    val connection: StateFlow<Connection>
+    val connection: Flow<Connection>
     val state: Flow<State>
 
     suspend fun connect()
 
     data class State(
         val deviceType: DeviceType,
-        val value: String,
+        val data: String,
     )
 
     enum class Connection {
-        CONNECTED,
-        DISCONNECTED,
+        CONNECTED, DISCONNECTED,
     }
 
     companion object {
@@ -47,25 +47,26 @@ internal interface BluetoothSensor {
             }
 
 
-        suspend fun bluetoothSensors(
+        @OptIn(FlowPreview::class)
+        fun bluetoothSensors(
             scanner: Scanner<PlatformAdvertisement>,
             bluetoothSensorProvider: (id: Uuid, peripheral: Peripheral) -> BluetoothSensor,
-        ): List<BluetoothSensor> =
-            buildList {
-                withTimeoutOrNull(SCAN_TIMEOUT.milliseconds) {
-                    scanner
-                        .advertisements
-                        .mapNotNull { advertisement ->
-                            val peripheral = Peripheral(advertisement)
-                            val id = peripheral.identifier.toString().toUuid()
-                            id?.let {
-                                bluetoothSensorProvider(id, peripheral)
-                            }
-                        }
-                        .collect { bluetoothSensor ->
-                            add(bluetoothSensor)
-                        }
+        ): Flow<BluetoothSensor> {
+            val bluetoothSensorsIds = mutableSetOf<Uuid>()
+
+            return scanner
+                .advertisements
+                .mapNotNull { advertisement ->
+                    val bluetoothSensorId = advertisement.identifier.toString().toUuid() ?: return@mapNotNull null
+
+                    if (bluetoothSensorsIds.contains(bluetoothSensorId)) return@mapNotNull null
+
+                    bluetoothSensorsIds.add(bluetoothSensorId)
+                    val peripheral = Peripheral(advertisement)
+                    bluetoothSensorProvider(bluetoothSensorId, peripheral)
                 }
-            }
+                .timeout(SCAN_TIMEOUT.milliseconds)
+                .catch { _ -> }
+        }
     }
 }

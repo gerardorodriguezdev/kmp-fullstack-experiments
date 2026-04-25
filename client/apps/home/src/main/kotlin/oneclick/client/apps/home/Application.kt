@@ -107,7 +107,7 @@ fun main() {
                 appLogger = appLogger,
                 devicesStore = devicesStore,
                 backgroundScope = CoroutineScope(dispatchersProvider.io()),
-                bluetoothSensorsProvider = DSDBluetoothSensor::dsdBluetoothSensors, //TODO: Update
+                bluetoothSensorsProvider = DSDBluetoothSensor.dsdBluetoothSensors(), //TODO: Update
             )
         }
     ).start()
