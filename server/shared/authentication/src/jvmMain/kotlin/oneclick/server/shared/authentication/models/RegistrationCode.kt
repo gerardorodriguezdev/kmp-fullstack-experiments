@@ -13,7 +13,7 @@ class RegistrationCode private constructor(val value: String) {
     companion object {
         private const val ERROR_MESSAGE = "Invalid registration code"
 
-        private val REGEX = """^[A-Za-z0-9+/]{43}=$""".toRegex()
+        private val REGEX = """^[A-Za-z0-9+]{43}=$""".toRegex()
 
         private fun isValid(value: String): Boolean = REGEX.matches(value)
 

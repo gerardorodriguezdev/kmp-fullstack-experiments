@@ -15,7 +15,7 @@ class DefaultRegistrationCodeProvider(
     override fun registrationCode(): RegistrationCode {
         val bytes = ByteArray(REGISTRATION_CODE_LENGTH)
         secureRandomProvider.secureRandom().nextBytes(bytes)
-        val code = Base64.encode(bytes)
+        val code = Base64.UrlSafe.encode(bytes)
         return RegistrationCode.unsafe(code)
     }
 
