@@ -14,7 +14,7 @@ class Password private constructor(val value: String) {
     companion object {
         private const val ERROR_MESSAGE = "Invalid password"
 
-        private val REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{15,64}$".toRegex()
+        private val REGEX = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{15,64}".toRegex()
 
         fun isValid(value: String): Boolean = REGEX.matches(value)
 

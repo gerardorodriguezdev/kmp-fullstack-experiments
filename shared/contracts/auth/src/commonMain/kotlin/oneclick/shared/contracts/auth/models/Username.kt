@@ -14,7 +14,7 @@ class Username private constructor(val value: String) {
     companion object {
         private const val ERROR_MESSAGE = "Invalid username"
 
-        private val REGEX = "^[a-zA-Z0-9_]{3,20}$".toRegex()
+        private val REGEX = "[a-zA-Z0-9_]{3,20}".toRegex()
 
         fun isValid(value: String): Boolean = REGEX.matches(value)
 

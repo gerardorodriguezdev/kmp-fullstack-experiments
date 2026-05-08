@@ -14,7 +14,7 @@ class Jwt private constructor(val value: String) {
     companion object Companion {
         private const val ERROR_MESSAGE = "Invalid jwt"
 
-        private val REGEX = "^[A-Za-z0-9-_]+.[A-Za-z0-9-_]+.[A-Za-z0-9-_]+$".toRegex()
+        private val REGEX = "[A-Za-z0-9-_]+.[A-Za-z0-9-_]+.[A-Za-z0-9-_]+".toRegex()
 
         private fun isValid(value: String): Boolean = REGEX.matches(value)
 

@@ -13,7 +13,7 @@ class JwtId private constructor(val value: String) {
     companion object {
         private const val ERROR_MESSAGE = "Invalid jwt id"
 
-        private val REGEX = """^[A-Za-z0-9+/]{86}={0,2}$""".toRegex()
+        private val REGEX = """[A-Za-z0-9+/]{86}={0,2}""".toRegex()
 
         private fun isValid(value: String): Boolean = REGEX.matches(value)
 

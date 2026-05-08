@@ -14,7 +14,7 @@ class Uuid private constructor(val value: String) {
     companion object {
         private const val ERROR_MESSAGE = "Invalid uuid"
 
-        private val REGEX = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$".toRegex()
+        private val REGEX = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}".toRegex()
 
         private fun isValid(value: String): Boolean = REGEX.matches(value)
 
