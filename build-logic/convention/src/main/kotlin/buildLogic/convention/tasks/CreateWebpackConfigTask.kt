@@ -41,17 +41,22 @@ abstract class CreateWebpackConfigTask : DefaultTask() {
             );
             
             if (config.devServer) {
-                const directories = config.devServer.static
+                const directories = config.devServer.static || []
 
                 config.devServer = {
                     ...config.devServer,
-                    static: directories.map(item => ({
-                        directory: item,
-                        watch: {
-                            ignored: [$ignoredFilesString],
-                            usePolling: false
-                        }
-                    }))
+                    static: directories.map(item => {
+                        const base = (typeof item === 'string')
+                                ? { directory: item }
+                                : { ...item };
+                            return {
+                                ...base,
+                                watch: {
+                                    ignored: [$ignoredFilesString],
+                                    usePolling: false
+                                }
+                            };
+                    })
                 }
             }
             

@@ -9,8 +9,8 @@ import oneclick.client.shared.network.models.LogoutResult
 import oneclick.client.shared.network.models.RequestLoginResult
 import oneclick.client.shared.network.models.UserLoggedResult
 import oneclick.shared.contracts.auth.models.requests.LoginRequest
-import oneclick.shared.contracts.auth.models.responses.IsLoggedResponse
 import oneclick.shared.contracts.auth.models.responses.BrowserRequestLoginResponse
+import oneclick.shared.contracts.auth.models.responses.IsLoggedResponse
 import oneclick.shared.contracts.core.models.ClientEndpoint
 import oneclick.shared.dispatchers.platform.DispatchersProvider
 import oneclick.shared.logging.AppLogger
@@ -24,7 +24,7 @@ class WasmRemoteAuthenticationDataSource(
     override suspend fun isUserLogged(): UserLoggedResult =
         withContext(dispatchersProvider.io()) {
             try {
-                val response: IsLoggedResponse = httpClient.get(ClientEndpoint.IS_LOGGED.route).body()
+                val response = httpClient.get(ClientEndpoint.IS_LOGGED.route).body<IsLoggedResponse>()
                 response.toUserLoggedResult()
             } catch (error: Exception) {
                 appLogger.e("Exception '${error.stackTraceToString()}' while checking if user is logged")
@@ -47,7 +47,7 @@ class WasmRemoteAuthenticationDataSource(
 
                 when (response.status) {
                     HttpStatusCode.OK -> {
-                        val browserRequestLoginResponse: BrowserRequestLoginResponse = response.body()
+                        val browserRequestLoginResponse = response.body<BrowserRequestLoginResponse>()
                         browserRequestLoginResponse.handle()
                     }
 
