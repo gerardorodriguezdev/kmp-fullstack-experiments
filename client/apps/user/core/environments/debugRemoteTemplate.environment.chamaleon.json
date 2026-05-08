@@ -56,5 +56,14 @@
         "value": true
       }
     ]
+  },
+  {
+    "platformType": "wasm",
+    "properties": [
+      {
+        "name": "IS_DEBUG",
+        "value": true
+      }
+    ]
   }
 ]

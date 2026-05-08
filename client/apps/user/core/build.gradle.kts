@@ -211,6 +211,14 @@ buildkonfig {
                 )
             }
         }
+
+        create("wasmJs") {
+            buildConfigField(
+                FieldSpec.Type.BOOLEAN,
+                name = "IS_DEBUG",
+                value = chamaleon.selectedEnvironment().wasmPlatform.propertyBooleanValue("IS_DEBUG").toString()
+            )
+        }
     }
 }
 

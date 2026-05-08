@@ -1,7 +1,8 @@
 {
   "supportedPlatforms": [
     "android",
-    "native"
+    "native",
+    "wasm"
   ],
   "propertyDefinitions": [
     {
@@ -33,21 +34,33 @@
       ]
     },
     {
-      "name": "IS_DEBUG",
-      "propertyType": "Boolean"
-    },
-    {
       "name": "PROTOCOL",
-      "propertyType": "String"
+      "propertyType": "String",
+      "supportedPlatforms": [
+        "android",
+        "native"
+      ]
     },
     {
       "name": "HOST",
-      "propertyType": "String"
+      "propertyType": "String",
+      "supportedPlatforms": [
+        "android",
+        "native"
+      ]
     },
     {
       "name": "PORT",
       "propertyType": "String",
-      "nullable": true
+      "nullable": true,
+      "supportedPlatforms": [
+        "android",
+        "native"
+      ]
+    },
+    {
+      "name": "IS_DEBUG",
+      "propertyType": "Boolean"
     }
   ]
 }
