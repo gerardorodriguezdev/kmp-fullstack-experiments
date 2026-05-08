@@ -13,8 +13,8 @@ import oneclick.shared.contracts.auth.models.Jwt
 import oneclick.shared.contracts.core.models.ClientEndpoint
 
 internal fun Routing.logoutEndpoint(invalidJwtDataSource: InvalidJwtDataSource) {
-    allAuthentication {
-        apiRateLimit {
+    apiRateLimit {
+        allAuthentication {
             get(ClientEndpoint.LOGOUT.route) {
                 val jwtCredentials = requireJwtCredentials()
 

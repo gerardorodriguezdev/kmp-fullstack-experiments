@@ -13,8 +13,8 @@ import oneclick.shared.contracts.homes.models.Home
 import oneclick.shared.contracts.homes.models.requests.SyncDevicesRequest
 
 internal fun Routing.homeSyncDevicesEndpoint(homesRepository: HomesRepository) {
-    homeAuthentication {
-        apiRateLimit {
+    apiRateLimit {
+        homeAuthentication {
             post(ClientEndpoint.HOME_SYNC_DEVICES.route) { syncDevicesRequest: SyncDevicesRequest ->
                 val (_, userId, homeId) = requireHomeJwtCredentials()
                 val isHomeSaved = homesRepository.saveHome(

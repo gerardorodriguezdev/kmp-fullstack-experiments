@@ -13,8 +13,8 @@ import oneclick.shared.contracts.auth.models.responses.IsLoggedResponse.NotLogge
 import oneclick.shared.contracts.core.models.ClientEndpoint
 
 internal fun Routing.isLoggedEndpoint() {
-    allAuthentication(optional = true) {
-        apiRateLimit {
+    apiRateLimit {
+        allAuthentication(optional = true) {
             get(ClientEndpoint.IS_LOGGED.route) {
                 val credentials = call.principal<UserJwtCredentials>() ?: call.principal<HomeJwtCredentials>()
 
