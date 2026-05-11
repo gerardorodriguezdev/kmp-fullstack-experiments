@@ -140,6 +140,11 @@
       "name": "CREATE_DATABASE_TABLES",
       "propertyType": "Boolean",
       "nullable": true
+    },
+    {
+      "name": "IS_DEBUG",
+      "propertyType": "Boolean",
+      "nullable": true
     }
   ]
 }

@@ -11,6 +11,7 @@ plugins {
 jvmServer {
     jvmTarget = libs.versions.jvm.api.get().toInt()
     mainClass = "oneclick.server.services.app.ApplicationKt"
+    isDevelopment = booleanProvider("IS_DEBUG")
 
     dockerConfiguration {
         executablePath = "/usr/local/bin/docker"
@@ -114,3 +115,6 @@ fun stringProvider(name: String): Provider<String> =
 
 fun intProvider(name: String): Provider<Int> =
     stringProvider(name).map { value -> value.toInt() }
+
+fun booleanProvider(name: String): Provider<Boolean> =
+    provider { chamaleon.selectedEnvironment().jvmPlatform.propertyBooleanValue(name) }

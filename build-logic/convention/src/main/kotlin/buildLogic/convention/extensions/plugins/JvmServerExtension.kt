@@ -16,6 +16,8 @@ open class JvmServerExtension @Inject constructor(
 ) {
     val jvmTarget: Property<Int> = objects.property(Int::class.java)
     val mainClass: Property<String> = objects.property(String::class.java)
+    val isDevelopment: Property<Boolean> = objects.property(Boolean::class.java)
+
     val dockerConfiguration: DockerConfiguration = objects.newInstance(DockerConfiguration::class)
     val dockerComposeConfiguration: DockerComposeConfiguration = objects.newInstance(DockerComposeConfiguration::class)
 

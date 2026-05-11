@@ -6,6 +6,7 @@ plugins {
 jvmServer {
     jvmTarget = libs.versions.jvm.api.get().toInt()
     mainClass = "oneclick.server.services.mock.ApplicationKt"
+    isDevelopment = true
 
     dockerConfiguration {
         executablePath = "/usr/local/bin/docker"

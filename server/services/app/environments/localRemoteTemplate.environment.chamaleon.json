@@ -104,7 +104,7 @@
       },
       {
         "name": "USE_MEMORY_DATA_SOURCES",
-        "value": true
+        "value": false
       },
       {
         "name": "USE_DEBUG_EMAIL_SERVICE",
@@ -112,6 +112,10 @@
       },
       {
         "name": "CREATE_DATABASE_TABLES",
+        "value": false
+      },
+      {
+        "name": "IS_DEBUG",
         "value": false
       }
     ]

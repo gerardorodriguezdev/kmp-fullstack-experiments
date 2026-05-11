@@ -157,8 +157,7 @@ class JvmServerPlugin : Plugin<Project> {
                 environment(key, value)
             }
 
-            //TODO: Review
-            systemProperty("io.ktor.development", "true")
+            systemProperty("io.ktor.development", jvmServerExtension.isDevelopment.get().toString())
         }
 
         val dockerComposeDirectory = dockerComposeDirectory()
