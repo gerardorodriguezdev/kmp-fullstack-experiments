@@ -41,16 +41,16 @@ fun main() {
     val dispatchersProvider = dispatchersProvider()
     val uuidProvider = DefaultUuidProvider()
     val userJwtProvider = UserJwtProvider(
-        audience = environment.jwtAudience,
-        issuer = environment.jwtIssuer,
+        audience = "oneclick-user-api",
+        issuer = environment.originUrl,
         secretSignKey = environment.secretSignKey,
         timeProvider = timeProvider,
         encryptor = encryptor,
         uuidProvider = uuidProvider,
     )
     val homeJwtProvider = HomeJwtProvider(
-        audience = environment.jwtAudience,
-        issuer = environment.jwtIssuer,
+        audience = "oneclick-home-api",
+        issuer = environment.originUrl,
         secretSignKey = environment.secretSignKey,
         timeProvider = timeProvider,
         encryptor = encryptor,
@@ -106,7 +106,7 @@ fun main() {
         disableSecureCookie = environment.disableSecureCookie,
         disableHsts = environment.disableHsts,
         disableHttpsRedirect = environment.disableHttpsRedirect,
-        allowLocalOrigins = environment.allowLocalOrigins,
+        originUrl = environment.originUrl,
         prometheusMeterRegistry = prometheusMeterRegistry,
     )
 
@@ -228,12 +228,11 @@ private class Environment(
     val port: Int = System.getenv("IMAGE_PORT").toInt(),
     val healthzPort: Int = System.getenv("HEALTHZ_PORT").toInt(),
     val metricsPort: Int = System.getenv("METRICS_PORT").toInt(),
+    val originUrl: String = System.getenv("ORIGIN_URL"),
 
     // Security
     val secretEncryptionKey: String = System.getenv("SECRET_ENCRYPTION_KEY"),
     val secretSignKey: String = System.getenv("SECRET_SIGN_KEY"),
-    val jwtAudience: String = System.getenv("JWT_AUDIENCE"),
-    val jwtIssuer: String = System.getenv("JWT_ISSUER"),
 
     // Postgres
     postgresPort: Int = System.getenv("POSTGRES_PORT").toInt(),
@@ -258,7 +257,6 @@ private class Environment(
     val disableHsts: Boolean = System.getenv("DISABLE_HSTS") == "true",
     val disableHttpsRedirect: Boolean = System.getenv("DISABLE_HTTPS_REDIRECT") == "true",
     val disableRateLimit: Boolean = System.getenv("DISABLE_RATE_LIMIT") == "true",
-    val allowLocalOrigins: Boolean = System.getenv("ALLOW_LOCAL_ORIGINS") == "true",
     val createDatabaseTables: Boolean = System.getenv("CREATE_DATABASE_TABLES") == "true",
 ) {
     val jdbcUrl: String = "jdbc:postgresql://$postgresHost:$postgresPort/$postgresDatabase"

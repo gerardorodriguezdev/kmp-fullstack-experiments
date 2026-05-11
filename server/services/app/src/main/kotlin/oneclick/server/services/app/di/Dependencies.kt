@@ -31,11 +31,11 @@ internal class Dependencies(
     val registrableUsersRepository: RegistrableUsersRepository,
     val onShutdown: (application: Application) -> Unit,
     val prometheusMeterRegistry: PrometheusMeterRegistry,
+    val originUrl: String,
 
     // Debug
     val disableRateLimit: Boolean,
     val disableSecureCookie: Boolean,
     val disableHsts: Boolean,
     val disableHttpsRedirect: Boolean,
-    val allowLocalOrigins: Boolean,
 )

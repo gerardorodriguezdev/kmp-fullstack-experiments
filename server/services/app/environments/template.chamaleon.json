@@ -32,53 +32,8 @@
       "nullable": true
     },
     {
-      "name": "JWT_AUDIENCE",
+      "name": "ORIGIN_URL",
       "propertyType": "String",
-      "nullable": true
-    },
-    {
-      "name": "JWT_ISSUER",
-      "propertyType": "String",
-      "nullable": true
-    },
-    {
-      "name": "DISABLE_RATE_LIMIT",
-      "propertyType": "Boolean",
-      "nullable": true
-    },
-    {
-      "name": "DISABLE_SECURE_COOKIE",
-      "propertyType": "Boolean",
-      "nullable": true
-    },
-    {
-      "name": "DISABLE_HSTS",
-      "propertyType": "Boolean",
-      "nullable": true
-    },
-    {
-      "name": "DISABLE_HTTPS_REDIRECT",
-      "propertyType": "Boolean",
-      "nullable": true
-    },
-    {
-      "name": "USE_MEMORY_DATA_SOURCES",
-      "propertyType": "Boolean",
-      "nullable": true
-    },
-    {
-      "name": "USE_DEBUG_EMAIL_SERVICE",
-      "propertyType": "Boolean",
-      "nullable": true
-    },
-    {
-      "name": "ALLOW_LOCAL_ORIGINS",
-      "propertyType": "Boolean",
-      "nullable": true
-    },
-    {
-      "name": "CREATE_DATABASE_TABLES",
-      "propertyType": "Boolean",
       "nullable": true
     },
     {
@@ -149,6 +104,41 @@
     {
       "name": "HEALTHZ_PORT",
       "propertyType": "String",
+      "nullable": true
+    },
+    {
+      "name": "DISABLE_RATE_LIMIT",
+      "propertyType": "Boolean",
+      "nullable": true
+    },
+    {
+      "name": "DISABLE_SECURE_COOKIE",
+      "propertyType": "Boolean",
+      "nullable": true
+    },
+    {
+      "name": "DISABLE_HSTS",
+      "propertyType": "Boolean",
+      "nullable": true
+    },
+    {
+      "name": "DISABLE_HTTPS_REDIRECT",
+      "propertyType": "Boolean",
+      "nullable": true
+    },
+    {
+      "name": "USE_MEMORY_DATA_SOURCES",
+      "propertyType": "Boolean",
+      "nullable": true
+    },
+    {
+      "name": "USE_DEBUG_EMAIL_SERVICE",
+      "propertyType": "Boolean",
+      "nullable": true
+    },
+    {
+      "name": "CREATE_DATABASE_TABLES",
+      "propertyType": "Boolean",
       "nullable": true
     }
   ]

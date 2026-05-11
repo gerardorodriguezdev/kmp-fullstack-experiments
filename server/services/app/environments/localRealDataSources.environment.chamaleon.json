@@ -27,44 +27,8 @@
         "value": "password"
       },
       {
-        "name": "JWT_AUDIENCE",
-        "value": "localhost"
-      },
-      {
-        "name": "JWT_ISSUER",
-        "value": "http://localhost:8080"
-      },
-      {
-        "name": "DISABLE_RATE_LIMIT",
-        "value": false
-      },
-      {
-        "name": "DISABLE_SECURE_COOKIE",
-        "value": true
-      },
-      {
-        "name": "DISABLE_HSTS",
-        "value": true
-      },
-      {
-        "name": "DISABLE_HTTPS_REDIRECT",
-        "value": true
-      },
-      {
-        "name": "USE_MEMORY_DATA_SOURCES",
-        "value": false
-      },
-      {
-        "name": "USE_DEBUG_EMAIL_SERVICE",
-        "value": true
-      },
-      {
-        "name": "ALLOW_LOCAL_ORIGINS",
-        "value": true
-      },
-      {
-        "name": "CREATE_DATABASE_TABLES",
-        "value": true
+        "name": "ORIGIN_URL",
+        "value": "http://localhost"
       },
       {
         "name": "POSTGRES_PORT",
@@ -121,6 +85,34 @@
       {
         "name": "HEALTHZ_PORT",
         "value": "8081"
+      },
+      {
+        "name": "DISABLE_RATE_LIMIT",
+        "value": false
+      },
+      {
+        "name": "DISABLE_SECURE_COOKIE",
+        "value": true
+      },
+      {
+        "name": "DISABLE_HSTS",
+        "value": true
+      },
+      {
+        "name": "DISABLE_HTTPS_REDIRECT",
+        "value": true
+      },
+      {
+        "name": "USE_MEMORY_DATA_SOURCES",
+        "value": false
+      },
+      {
+        "name": "USE_DEBUG_EMAIL_SERVICE",
+        "value": true
+      },
+      {
+        "name": "CREATE_DATABASE_TABLES",
+        "value": true
       }
     ]
   }
