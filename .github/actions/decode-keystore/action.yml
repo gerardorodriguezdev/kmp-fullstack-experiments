@@ -1,0 +1,18 @@
+name: Decode keystore
+
+inputs:
+  keystore-base64:
+    description: 'Base64 encoded keystore file'
+    required: true
+  keystore-path:
+    description: 'Output path for the decoded keystore file'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Decode keystore
+      shell: bash
+      run: |
+        mkdir -p "$(dirname "${{ inputs.keystore-path }}")"
+        echo "${{ inputs.keystore-base64 }}" | base64 -d > "${{ inputs.keystore-path }}"
