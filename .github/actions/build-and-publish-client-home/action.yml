@@ -1,4 +1,4 @@
-name: Build and publish home app
+name: Build and publish client home
 
 runs:
   using: composite

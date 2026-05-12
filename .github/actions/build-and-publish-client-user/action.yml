@@ -1,4 +1,4 @@
-name: Build client user app
+name: Build and publish client user app
 
 runs:
   using: composite
@@ -18,3 +18,14 @@ runs:
       shell: bash
       run: |
         ./gradlew :client:apps:user:core:selectEnvironment -PnewSelectedEnvironment=production
+
+    - name: Build apk
+      shell: bash
+      run: |
+        ./gradlew :client:apps:user:core:assembleRelease
+
+    - name: Publish apk
+      uses: softprops/action-gh-release@v3
+      with:
+        files: |
+          ./client/apps/user/core/build/outputs/apk/release/core-release.apk

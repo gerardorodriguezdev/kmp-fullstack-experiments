@@ -25,10 +25,10 @@ jobs:
         uses: ./.github/actions/setup-action
 
       - name: Build and upload client user app
-        uses: ./.github/actions/build-client-user
+        uses: ./.github/actions/build-and-publish-client-user
 
       - name: Build and publish home app
-        uses: ./.github/actions/build-and-publish-home
+        uses: ./.github/actions/build-and-publish-client-home
 
       - name: Build and publish server app
-        uses: ./.github/actions/build-and-publish-server
+        uses: ./.github/actions/build-and-publish-server-app
