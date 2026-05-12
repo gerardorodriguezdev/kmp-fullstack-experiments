@@ -26,6 +26,20 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup-action
 
+      - name: Setup app files
+        run: |
+          mkdir -p ./client/apps/user/core/local
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > ./client/apps/user/core/local/production-keystore.jks &
+          wait
+
+      - name: Generate client user environment
+        run: |
+          ./gradlew :client:apps:user:core:generateEnvironment -Penvironment="production(android[KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }},KEY_ALIAS=${{ secrets.KEY_ALIAS }},KEY_PASSWORD=${{ secrets.KEY_PASSWORD }},KEYSTORE_PATH=local/production-keystore.jks,IS_DEBUG=false,PROTOCOL=https,HOST=${{ secrets.HOST }}]:native[IS_DEBUG=false,PROTOCOL=https,HOST=${{ secrets.HOST }}]:wasm[IS_DEBUG=false])"
+
+      - name: Select client user environment
+        run: |
+          ./gradlew :client:apps:user:core:selectEnvironment -PnewSelectedEnvironment=production
+
       - name: Generate server app environment
         run: |
           ./gradlew :server:services:app:generateEnvironment -Penvironment="${{ env.BRANCH_NAME }}(jvm[IMAGE_NAME=service-app-${{ env.BRANCH_NAME }},IMAGE_PORT=8080,IMAGE_TAG=${{ github.sha }},REGISTRY_LOCATION=ghcr.io/${{ github.repository }},REGISTRY_USERNAME=${{ github.actor }},REGISTRY_PASSWORD=${{ secrets.GITHUB_TOKEN }}])"
@@ -33,10 +47,6 @@ jobs:
       - name: Select server app environment
         run: |
           ./gradlew :server:services:app:selectEnvironment -PnewSelectedEnvironment=${{ env.BRANCH_NAME }}
-
-      - name: Publish server app image
-        run: |
-          ./gradlew :server:services:app:publishImage
 
       - name: Generate client home environment
         run: |
@@ -46,20 +56,10 @@ jobs:
         run: |
           ./gradlew :client:apps:home:selectEnvironment -PnewSelectedEnvironment=${{ env.BRANCH_NAME }}
 
+      - name: Publish server app image
+        run: |
+          ./gradlew :server:services:app:publishImage
+
       - name: Publish client home image
         run: |
           ./gradlew :client:apps:home:publishImage
-
-      - name: Setup app files
-        run: |
-          mkdir -p ./client/apps/user/core/local
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > ./client/apps/user/core/local/production-keystore.jks &
-          wait
-
-      - name: Generate client user environment
-        run: |
-          ./gradlew :client:apps:user:core:generateEnvironment -Penvironment="production(android[KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }},KEY_ALIAS=${{ secrets.KEY_ALIAS }},KEY_PASSWORD=${{ secrets.KEY_PASSWORD }},KEYSTORE_PATH=local/production-keystore.jks,IS_DEBUG=false,PROTOCOL=https,HOST=${{ secrets.HOST }}]:native[IS_DEBUG=false,PROTOCOL=https,HOST=${{ secrets.HOST }}])"
-
-      - name: Select client user environment
-        run: |
-          ./gradlew :client:apps:user:core:selectEnvironment -PnewSelectedEnvironment=production
