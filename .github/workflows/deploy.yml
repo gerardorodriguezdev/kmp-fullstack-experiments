@@ -31,9 +31,20 @@ jobs:
 
       - name: Build and upload client user app
         uses: ./.github/actions/build-and-publish-client-user
+        with:
+          keystore-path: ${{ secrets.KEYSTORE_PATH }}
+          keystore-base64: ${{ secrets.KEYSTORE_BASE64 }}
+          keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
+          key-alias: ${{ secrets.KEY_ALIAS }}
+          key-password: ${{ secrets.KEY_PASSWORD }}
+          host: ${{ secrets.HOST }}
 
       - name: Build and publish home app
         uses: ./.github/actions/build-and-publish-client-home
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and publish server app
         uses: ./.github/actions/build-and-publish-server-app
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

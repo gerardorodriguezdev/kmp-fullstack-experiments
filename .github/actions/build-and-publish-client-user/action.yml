@@ -1,18 +1,32 @@
 name: Build and publish client user app
 
+inputs:
+  keystore-path:
+    required: true
+  keystore-base64:
+    required: true
+  keystore-password:
+    required: true
+  key-alias:
+    required: true
+  key-password:
+    required: true
+  host:
+    required: true
+
 runs:
   using: composite
   steps:
     - name: Decode keystore
       shell: bash
       run: |
-        mkdir -p "$(dirname "${{ secrets.KEYSTORE_PATH }}")"
-        echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > "${{ secrets.KEYSTORE_PATH }}"
+        mkdir -p "$(dirname "${{ inputs.keystore-path }}")"
+        echo "${{ inputs.keystore-base64 }}" | base64 -d > "${{ inputs.keystore-path }}"
 
     - name: Generate environment
       shell: bash
       run: |
-        ./gradlew :client:apps:user:core:generateEnvironment -Penvironment="production(android[KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }},KEY_ALIAS=${{ secrets.KEY_ALIAS }},KEY_PASSWORD=${{ secrets.KEY_PASSWORD }},KEYSTORE_PATH=local/production-keystore.jks,IS_DEBUG=false,PROTOCOL=https,HOST=${{ secrets.HOST }}]:native[IS_DEBUG=false,PROTOCOL=https,HOST=${{ secrets.HOST }}]:wasm[IS_DEBUG=false])"
+        ./gradlew :client:apps:user:core:generateEnvironment -Penvironment="production(android[KEYSTORE_PASSWORD=${{ inputs.keystore-password }},KEY_ALIAS=${{ inputs.key-alias }},KEY_PASSWORD=${{ inputs.key-password }},KEYSTORE_PATH=local/production-keystore.jks,IS_DEBUG=false,PROTOCOL=https,HOST=${{ inputs.host }}]:native[IS_DEBUG=false,PROTOCOL=https,HOST=${{ inputs.host }}]:wasm[IS_DEBUG=false])"
 
     - name: Select environment
       shell: bash
