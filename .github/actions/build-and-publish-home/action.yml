@@ -1,0 +1,19 @@
+name: Build and publish home app
+
+runs:
+  using: composite
+  steps:
+    - name: Generate environment
+      shell: bash
+      run: |
+        ./gradlew :client:apps:home:generateEnvironment -Penvironment="production(jvm[IMAGE_NAME=client-home-production,IMAGE_PORT=8080,IMAGE_TAG=${{ github.sha }},REGISTRY_LOCATION=ghcr.io/${{ github.repository }},REGISTRY_USERNAME=${{ github.actor }},REGISTRY_PASSWORD=${{ secrets.GITHUB_TOKEN }}])"
+
+    - name: Select environment
+      shell: bash
+      run: |
+        ./gradlew :client:apps:home:selectEnvironment -PnewSelectedEnvironment=production
+
+    - name: Publish image
+      shell: bash
+      run: |
+        ./gradlew :client:apps:home:publishImage

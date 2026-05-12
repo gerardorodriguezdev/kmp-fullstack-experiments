@@ -1,0 +1,20 @@
+name: Build client user app
+
+runs:
+  using: composite
+  steps:
+    - name: Decode keystore
+      shell: bash
+      run: |
+        mkdir -p "$(dirname "${{ secrets.KEYSTORE_PATH }}")"
+        echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > "${{ secrets.KEYSTORE_PATH }}"
+
+    - name: Generate environment
+      shell: bash
+      run: |
+        ./gradlew :client:apps:user:core:generateEnvironment -Penvironment="production(android[KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }},KEY_ALIAS=${{ secrets.KEY_ALIAS }},KEY_PASSWORD=${{ secrets.KEY_PASSWORD }},KEYSTORE_PATH=local/production-keystore.jks,IS_DEBUG=false,PROTOCOL=https,HOST=${{ secrets.HOST }}]:native[IS_DEBUG=false,PROTOCOL=https,HOST=${{ secrets.HOST }}]:wasm[IS_DEBUG=false])"
+
+    - name: Select environment
+      shell: bash
+      run: |
+        ./gradlew :client:apps:user:core:selectEnvironment -PnewSelectedEnvironment=production
