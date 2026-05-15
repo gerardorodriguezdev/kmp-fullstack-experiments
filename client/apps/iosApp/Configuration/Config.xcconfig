@@ -1,4 +1,4 @@
-TEAM_ID=
+TEAM_ID=A1B2C3D4E5
 
 PRODUCT_NAME=oneclick
 PRODUCT_BUNDLE_IDENTIFIER=org.oneclick.oneclick.oneclick$(TEAM_ID)
