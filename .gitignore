@@ -29,6 +29,9 @@ xcuserdata
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 
+# Apple
+*.ipa
+
 # Jvm
 java_*
 
