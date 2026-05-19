@@ -1,7 +1,31 @@
 name: Build and publish client user ios
 
-inputs:
-
 runs:
   using: composite
   steps:
+    - name: Build app
+      shell: bash
+      run: |
+        xcodebuild clean archive \
+          -project client/apps/iosApp/iosApp.xcodeproj \
+          -scheme "iosApp" \
+          -configuration Release \
+          -sdk iphoneos \
+          -archivePath client/apps/iosApp/build/iosApp.xcarchive \
+          CODE_SIGN_IDENTITY="" \
+          CODE_SIGNING_REQUIRED=NO \
+          CODE_SIGNING_ALLOWED=NO \
+          DEVELOPMENT_TEAM=""
+
+    - name: Zip ipa
+      shell: bash
+      run: |
+        mkdir client/apps/iosApp/build/Payload
+        cp -r client/apps/iosApp/build/iosApp.xcarchive/Products/Applications/oneclick.app client/apps/iosApp/build/Payload
+        (cd client/apps/iosApp/build && zip -qr oneclick.ipa Payload)
+
+    - name: Publish ipa
+      uses: softprops/action-gh-release@v3
+      with:
+        files: |
+          ./client/apps/iosApp/build/oneclick.ipa

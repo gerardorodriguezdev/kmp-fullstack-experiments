@@ -39,6 +39,9 @@ jobs:
           key-password: ${{ secrets.KEY_PASSWORD }}
           host: ${{ secrets.HOST }}
 
+      - name: Build and publish client user app ios
+        uses: ./.github/actions/build-and-publish-client-user-ios
+
       - name: Build and publish home app
         uses: ./.github/actions/build-and-publish-client-home
         with:
