@@ -31,13 +31,6 @@ jobs:
 
       - name: Build and publish client user app android
         uses: ./.github/actions/build-and-publish-client-user-android
-        with:
-          keystore-path: ${{ secrets.KEYSTORE_PATH }}
-          keystore-base64: ${{ secrets.KEYSTORE_BASE64 }}
-          keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
-          key-alias: ${{ secrets.KEY_ALIAS }}
-          key-password: ${{ secrets.KEY_PASSWORD }}
-          host: ${{ secrets.HOST }}
 
       - name: Build and publish client user app ios
         uses: ./.github/actions/build-and-publish-client-user-ios

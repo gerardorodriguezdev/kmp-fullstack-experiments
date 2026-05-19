@@ -32,7 +32,7 @@
       },
       {
         "name": "KEYSTORE_PATH",
-        "value": "local/debug-keystore.jks"
+        "value": "dev/debug-keystore.jks"
       },
       {
         "name": "KEYSTORE_PASSWORD",
