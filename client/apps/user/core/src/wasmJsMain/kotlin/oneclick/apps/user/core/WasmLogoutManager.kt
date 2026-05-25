@@ -1,4 +1,4 @@
-package oneclick.client.apps.user.core
+package oneclick.apps.user.core
 
 import oneclick.client.apps.user.navigation.NavigationController
 import oneclick.client.apps.user.navigation.logout

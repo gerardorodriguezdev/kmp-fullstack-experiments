@@ -52,6 +52,8 @@ include(
 
 include(
     "client:apps:home",
+    "client:apps:user:androidApp",
+    "client:apps:user:webApp",
     "client:apps:user:core",
     "client:apps:user:di",
     "client:apps:user:ui",

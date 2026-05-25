@@ -1,10 +1,8 @@
-import buildLogic.convention.configurations.WebpackConfiguration
 import com.codingfeline.buildkonfig.compiler.FieldSpec
-import org.jetbrains.compose.ExperimentalComposeLibrary
 
 plugins {
-    id("oneclick.wasm.website")
-    id("oneclick.android.app")
+    id("oneclick.wasm.library")
+    id("oneclick.android.library")
     id("oneclick.ios.app")
     alias(libs.plugins.kmp.compose.compiler)
     alias(libs.plugins.kmp.compose.jetbrains)
@@ -15,36 +13,10 @@ plugins {
     alias(libs.plugins.kmp.stability.analyzer)
 }
 
-wasmWebsite {
-    webpackConfiguration {
-        port = 3_000
-        proxy = WebpackConfiguration.Proxy(
-            context = mutableListOf("/api"),
-            target = "http://localhost:8080",
-        )
-        ignoredFiles = listOf("**/local/**")
-    }
-}
-
-androidApp {
-    jvmTarget = libs.versions.jvm.api.get().toInt()
-
+androidLibrary {
     namespace = "oneclick.client.apps.user.core"
     compileSdkVersion = libs.versions.android.api.get().toInt()
-
-    applicationId = "oneclick.client.app"
     minSdkVersion = libs.versions.android.api.get().toInt()
-    targetSdkVersion = libs.versions.android.api.get().toInt()
-    val appVersion = libs.versions.client.app.user.get().toInt()
-    versionCode = appVersion
-    versionName = "1.$appVersion"
-    testRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-    storeFile = file(androidStringProvider("KEYSTORE_PATH"))
-    storePassword = androidStringProvider("KEYSTORE_PASSWORD")
-    keyAlias = androidStringProvider("KEY_ALIAS")
-    keyPassword = androidStringProvider("KEY_PASSWORD")
-
     composeEnabled = true
 }
 
@@ -93,16 +65,6 @@ kotlin {
             }
         }
 
-        @OptIn(ExperimentalComposeLibrary::class)
-        commonTest {
-            dependencies {
-                implementation(libs.kmp.test)
-                implementation(compose.uiTest)
-                implementation(ktorLibs.client.mock)
-                implementation(libs.kmp.test.turbine)
-            }
-        }
-
         iosMain {
             dependencies {
                 implementation(libs.kmp.datastore)
@@ -118,30 +80,10 @@ kotlin {
             }
         }
 
-        androidInstrumentedTest {
-            dependencies {
-                implementation(libs.android.test.junit)
-                implementation(libs.android.test.navigation)
-                implementation(libs.kmp.test.turbine)
-            }
-
-            project.dependencies {
-                debugImplementation(libs.android.test.leak.canary)
-                debugImplementation(compose.uiTooling)
-                debugImplementation(libs.android.test.manifest)
-            }
-        }
-
         wasmJsMain {
             dependencies {
                 implementation(devNpm("compression-webpack-plugin", libs.versions.webpack.compression.get()))
                 implementation(devNpm("html-webpack-plugin", libs.versions.webpack.html.get()))
-            }
-        }
-
-        wasmJsTest {
-            dependencies {
-                implementation(libs.kmp.test.turbine)
             }
         }
     }

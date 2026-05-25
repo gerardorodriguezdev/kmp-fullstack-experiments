@@ -8,7 +8,7 @@ import androidx.navigation.bindToBrowserNavigation
 import androidx.navigation.compose.rememberNavController
 import io.ktor.client.engine.js.*
 import kotlinx.browser.document
-import oneclick.client.apps.user.core.buildkonfig.BuildKonfig
+import oneclick.apps.user.core.WasmLogoutManager
 import oneclick.client.apps.user.core.di.createAppComponent
 import oneclick.client.apps.user.di.wasmCoreComponent
 import oneclick.client.apps.user.navigation.DefaultNavigationController
@@ -19,7 +19,7 @@ import oneclick.shared.logging.appLogger
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalBrowserHistoryApi::class)
 fun main() {
-    val appLogger = if (BuildKonfig.IS_DEBUG) appLogger() else EmptyAppLogger()
+    val appLogger = if (Conf.isDebug) appLogger() else EmptyAppLogger()
     val navigationController = DefaultNavigationController()
     val coreComponent = wasmCoreComponent(
         httpClientEngine = Js.create(),

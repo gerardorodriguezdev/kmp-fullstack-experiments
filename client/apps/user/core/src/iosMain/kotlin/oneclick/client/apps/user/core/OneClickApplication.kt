@@ -3,9 +3,7 @@ package oneclick.client.apps.user.core
 import io.ktor.http.*
 import kotlinx.cinterop.ExperimentalForeignApi
 import okio.Path.Companion.toPath
-import oneclick.client.apps.user.core.buildkonfig.BuildKonfig
 import oneclick.client.apps.user.core.di.createAppComponent
-import oneclick.client.apps.user.core.mappers.urlProtocol
 import oneclick.client.apps.user.di.iosCoreComponent
 import oneclick.client.apps.user.navigation.DefaultNavigationController
 import oneclick.client.apps.user.notifications.DefaultNotificationsController
@@ -25,7 +23,7 @@ internal object OneClickApplication {
     val entrypoint: Entrypoint
 
     init {
-        val appLogger = if (BuildKonfig.IS_DEBUG) appLogger() else EmptyAppLogger()
+        val appLogger = if (Conf.isDebug) appLogger() else EmptyAppLogger()
         val dispatchersProvider = dispatchersProvider()
         val preferences = IOSPreferences(
             preferencesFileProvider = {
@@ -44,9 +42,9 @@ internal object OneClickApplication {
         val tokenDataSource = LocalTokenDataSource(preferences)
         val navigationController = DefaultNavigationController()
         val url = URLBuilder().apply {
-            protocolOrNull = BuildKonfig.urlProtocol()
-            BuildKonfig.HOST?.let { host -> this.host = host }
-            BuildKonfig.PORT?.let { port -> this.port = port }
+            protocolOrNull = Conf.urlProtocol()
+            Conf.host?.let { host -> this.host = host }
+            Conf.port?.let { port -> this.port = port }
         }.build()
         val coreComponent = iosCoreComponent(
             url = url,

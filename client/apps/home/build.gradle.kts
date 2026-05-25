@@ -33,10 +33,6 @@ kotlin {
         implementation(projects.shared.ktor)
         implementation(projects.shared.security)
         implementation(projects.shared.timeProvider)
-
-        testImplementation(libs.kmp.test)
-        testImplementation(libs.kmp.test.turbine)
-        testImplementation(libs.kmp.test.coroutines)
     }
 }
 

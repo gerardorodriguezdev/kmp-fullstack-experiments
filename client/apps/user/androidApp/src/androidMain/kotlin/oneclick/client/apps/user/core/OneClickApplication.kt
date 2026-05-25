@@ -4,9 +4,7 @@ import android.app.Application
 import android.os.StrictMode
 import com.skydoves.compose.stability.runtime.ComposeStabilityAnalyzer
 import io.ktor.http.*
-import oneclick.client.apps.user.core.buildkonfig.BuildKonfig
 import oneclick.client.apps.user.core.di.createAppComponent
-import oneclick.client.apps.user.core.mappers.urlProtocol
 import oneclick.client.apps.user.di.androidCoreComponent
 import oneclick.client.apps.user.navigation.DefaultNavigationController
 import oneclick.client.apps.user.notifications.DefaultNotificationsController
@@ -29,9 +27,9 @@ class OneClickApplication : Application() {
         setupStrictVmPolicy()
         super.onCreate()
 
-        ComposeStabilityAnalyzer.setEnabled(BuildKonfig.IS_DEBUG)
+        ComposeStabilityAnalyzer.setEnabled(Conf.isDebug)
         val secureRandomProvider = DefaultSecureRandomProvider()
-        val appLogger = if (BuildKonfig.IS_DEBUG) appLogger() else EmptyAppLogger()
+        val appLogger = if (Conf.isDebug) appLogger() else EmptyAppLogger()
         val dispatchersProvider = dispatchersProvider()
         val encryptedPreferences = DataStoreEncryptedPreferences(
             preferencesFileProvider = {
@@ -44,9 +42,9 @@ class OneClickApplication : Application() {
         val tokenDataSource = LocalTokenDataSource(encryptedPreferences)
         val navigationController = DefaultNavigationController()
         val url = URLBuilder().apply {
-            protocolOrNull = BuildKonfig.urlProtocol()
-            BuildKonfig.HOST?.let { this.host = BuildKonfig.HOST }
-            BuildKonfig.PORT?.let { this.port = BuildKonfig.PORT }
+            protocolOrNull = Conf.urlProtocol()
+            Conf.host?.let { this.host = it }
+            Conf.port?.let { this.port = it }
         }.build()
         val coreComponent = androidCoreComponent(
             url = url,
@@ -86,7 +84,7 @@ class OneClickApplication : Application() {
     private fun StrictMode.ThreadPolicy.Builder.penalties(): StrictMode.ThreadPolicy.Builder =
         apply {
             penaltyLog()
-            if (BuildKonfig.IS_DEBUG) {
+            if (Conf.isDebug) {
                 penaltyDeath()
             }
         }
@@ -114,7 +112,7 @@ class OneClickApplication : Application() {
             detectLeakedSqlLiteObjects()
             // detectLeakedClosableObjects() | Required to be disabled. Related to keyboard
 
-            if (BuildKonfig.urlProtocol() == URLProtocol.HTTPS) {
+            if (Conf.urlProtocol() == URLProtocol.HTTPS) {
                 detectCleartextNetwork()
             }
         }
@@ -122,7 +120,7 @@ class OneClickApplication : Application() {
     private fun StrictMode.VmPolicy.Builder.penalties(): StrictMode.VmPolicy.Builder = apply {
         penaltyLog()
 
-        if (BuildKonfig.IS_DEBUG) {
+        if (Conf.isDebug) {
             penaltyDeath()
         }
     }

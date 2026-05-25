@@ -87,13 +87,8 @@ dependencies {
     implementation(projects.server.shared.authentication)
     implementation(projects.server.shared.db)
     implementation(projects.server.shared.email)
-    consumeWasmWebsite(projects.client.apps.user.core.path)
 
-    testImplementation(ktorLibs.server.testHost)
-    testImplementation(ktorLibs.client.core)
-    testImplementation(ktorLibs.client.cio)
-    testImplementation(ktorLibs.client.contentNegotiation)
-    testImplementation(libs.kmp.test)
+    consumeWasmWebsite(projects.client.apps.user.webApp.path)
 
     runtimeOnly(libs.kmp.poko)
 }

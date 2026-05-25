@@ -20,18 +20,12 @@ dependencies {
     implementation(libs.gradle.docker.compose)
     implementation(libs.gradle.kaml)
     implementation(libs.jvm.chamaleon)
-
-    testImplementation(libs.kmp.test)
 }
 
 tasks {
     validatePlugins {
         enableStricterValidation = true
         failOnWarning = true
-    }
-
-    test {
-        useJUnitPlatform()
     }
 }
 
