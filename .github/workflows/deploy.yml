@@ -44,3 +44,10 @@ jobs:
         uses: ./.github/actions/build-and-publish-server-app
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish apk and ipa
+        uses: softprops/action-gh-release@v3
+        with:
+          files: |
+            ./client/apps/user/core/build/outputs/apk/release/core-release.apk
+            ./client/apps/iosApp/build/oneclick.ipa

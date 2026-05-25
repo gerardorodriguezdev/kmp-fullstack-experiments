@@ -9,8 +9,6 @@ local.properties
 # All
 **/local/
 **/release/
-production.environment.chamaleon.json
-staging.environment.chamaleon.json
 
 # Android
 **/debug/

@@ -1,4 +1,4 @@
-name: Build and publish client user ios
+name: Build ios ipa
 
 runs:
   using: composite
@@ -23,9 +23,3 @@ runs:
         mkdir client/apps/iosApp/build/Payload
         cp -r client/apps/iosApp/build/iosApp.xcarchive/Products/Applications/oneclick.app client/apps/iosApp/build/Payload
         (cd client/apps/iosApp/build && zip -qr oneclick.ipa Payload)
-
-    - name: Publish ipa
-      uses: softprops/action-gh-release@v3
-      with:
-        files: |
-          ./client/apps/iosApp/build/oneclick.ipa
