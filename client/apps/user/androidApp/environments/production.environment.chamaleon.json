@@ -17,52 +17,6 @@
       {
         "name": "KEYSTORE_PATH",
         "value": "dev/debug-keystore.jks"
-      },
-      {
-        "name": "PROTOCOL",
-        "value": "https"
-      },
-      {
-        "name": "HOST",
-        "value": "localhost"
-      },
-      {
-        "name": "PORT",
-        "value": null
-      },
-      {
-        "name": "IS_DEBUG",
-        "value": false
-      }
-    ]
-  },
-  {
-    "platformType": "native",
-    "properties": [
-      {
-        "name": "PROTOCOL",
-        "value": "https"
-      },
-      {
-        "name": "HOST",
-        "value": "localhost"
-      },
-      {
-        "name": "PORT",
-        "value": null
-      },
-      {
-        "name": "IS_DEBUG",
-        "value": false
-      }
-    ]
-  },
-  {
-    "platformType": "wasm",
-    "properties": [
-      {
-        "name": "IS_DEBUG",
-        "value": false
       }
     ]
   }

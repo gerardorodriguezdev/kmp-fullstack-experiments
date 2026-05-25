@@ -2,7 +2,6 @@ plugins {
     id("oneclick.android.app")
     alias(libs.plugins.kmp.compose.compiler)
     alias(libs.plugins.kmp.compose.jetbrains)
-    alias(libs.plugins.kmp.serialization)
     alias(libs.plugins.kmp.chamaleon)
     alias(libs.plugins.kmp.stability.analyzer)
 }

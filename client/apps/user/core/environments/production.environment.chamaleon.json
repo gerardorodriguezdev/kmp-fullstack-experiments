@@ -3,22 +3,6 @@
     "platformType": "android",
     "properties": [
       {
-        "name": "KEYSTORE_PASSWORD",
-        "value": "Password123"
-      },
-      {
-        "name": "KEY_ALIAS",
-        "value": "key0"
-      },
-      {
-        "name": "KEY_PASSWORD",
-        "value": "Password123"
-      },
-      {
-        "name": "KEYSTORE_PATH",
-        "value": "dev/debug-keystore.jks"
-      },
-      {
         "name": "PROTOCOL",
         "value": "https"
       },

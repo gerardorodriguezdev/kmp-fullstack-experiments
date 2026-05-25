@@ -4,7 +4,6 @@ plugins {
     id("oneclick.wasm.website")
     alias(libs.plugins.kmp.compose.compiler)
     alias(libs.plugins.kmp.compose.jetbrains)
-    alias(libs.plugins.kmp.serialization)
 }
 
 wasmWebsite {

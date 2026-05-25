@@ -1,8 +1,6 @@
 {
   "supportedPlatforms": [
-    "android",
-    "native",
-    "wasm"
+    "android"
   ],
   "propertyDefinitions": [
     {
@@ -14,53 +12,15 @@
     },
     {
       "name": "KEY_ALIAS",
-      "propertyType": "String",
-      "supportedPlatforms": [
-        "android"
-      ]
+      "propertyType": "String"
     },
     {
       "name": "KEY_PASSWORD",
-      "propertyType": "String",
-      "supportedPlatforms": [
-        "android"
-      ]
+      "propertyType": "String"
     },
     {
       "name": "KEYSTORE_PATH",
-      "propertyType": "String",
-      "supportedPlatforms": [
-        "android"
-      ]
-    },
-    {
-      "name": "PROTOCOL",
-      "propertyType": "String",
-      "supportedPlatforms": [
-        "android",
-        "native"
-      ]
-    },
-    {
-      "name": "HOST",
-      "propertyType": "String",
-      "supportedPlatforms": [
-        "android",
-        "native"
-      ]
-    },
-    {
-      "name": "PORT",
-      "propertyType": "String",
-      "nullable": true,
-      "supportedPlatforms": [
-        "android",
-        "native"
-      ]
-    },
-    {
-      "name": "IS_DEBUG",
-      "propertyType": "Boolean"
+      "propertyType": "String"
     }
   ]
 }
