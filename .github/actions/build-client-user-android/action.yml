@@ -6,4 +6,4 @@ runs:
     - name: Build apk
       shell: bash
       run: |
-        ./gradlew :client:apps:user:core:assembleRelease
+        ./gradlew :client:apps:user:androidApp:assembleRelease

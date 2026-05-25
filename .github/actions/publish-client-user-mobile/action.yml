@@ -7,5 +7,5 @@ runs:
       uses: softprops/action-gh-release@v3
       with:
         files: |
-          ./client/apps/user/core/build/outputs/apk/release/core-release.apk
-          ./client/apps/iosApp/build/oneclick.ipa
+          ./client/apps/user/androidApp/build/outputs/apk/release/core-release.apk
+          ./client/apps/user/iosApp/build/oneclick.ipa
