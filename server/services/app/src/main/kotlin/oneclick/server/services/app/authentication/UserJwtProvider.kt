@@ -36,6 +36,6 @@ internal class UserJwtProvider(
 
     companion object {
         const val USER_ID_CLAIM = "userId"
-        const val JWT_EXPIRATION_TIME = 1000 * 60 * 5L
+        const val JWT_EXPIRATION_TIME = 60 * 5L
     }
 }

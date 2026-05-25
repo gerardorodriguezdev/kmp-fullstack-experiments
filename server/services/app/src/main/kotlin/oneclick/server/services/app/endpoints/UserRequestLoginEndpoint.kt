@@ -58,7 +58,7 @@ internal fun Routing.userRequestLoginEndpoint(
                     )
                 }
 
-                !passwordManager.verifyPassword(
+                !passwordManager.isPasswordValid(
                     password = password,
                     hashedPassword = user.hashedPassword
                 ) -> {

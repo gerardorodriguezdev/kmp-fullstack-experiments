@@ -44,13 +44,14 @@ internal fun Routing.homeRequestLoginEndpoint(
                 return@post
             }
 
-            val isPasswordValid = !passwordManager.verifyPassword(
+            val isPasswordValid = passwordManager.isPasswordValid(
                 password = password,
                 hashedPassword = user.hashedPassword
             )
             if (!isPasswordValid) {
                 application.log.debug("Invalid password")
                 call.respond(HttpStatusCode.Unauthorized)
+                return@post
             }
 
             val home = homesRepository.home(userId = user.userId, homeId = homeId)

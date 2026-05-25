@@ -41,6 +41,6 @@ internal class HomeJwtProvider(
     companion object {
         const val USER_ID_CLAIM = "userId"
         const val HOME_ID_CLAIM = "homeId"
-        const val JWT_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 30L
+        const val JWT_EXPIRATION_TIME = 60 * 60 * 24 * 30L
     }
 }

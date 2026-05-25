@@ -7,7 +7,7 @@ import oneclick.shared.security.SecureRandomProvider
 
 interface PasswordManager {
     fun hashPassword(password: Password): HashedPassword
-    fun verifyPassword(password: Password, hashedPassword: HashedPassword): Boolean
+    fun isPasswordValid(password: Password, hashedPassword: HashedPassword): Boolean
 }
 
 class BcryptPasswordManager(
@@ -19,7 +19,7 @@ class BcryptPasswordManager(
                 .hashToString(PASSWORD_VERIFICATION_COST, password.value.toCharArray())
         )
 
-    override fun verifyPassword(password: Password, hashedPassword: HashedPassword): Boolean =
+    override fun isPasswordValid(password: Password, hashedPassword: HashedPassword): Boolean =
         BCrypt.verifyer().verify(
             password.value.toCharArray(),
             hashedPassword.value.toCharArray()
