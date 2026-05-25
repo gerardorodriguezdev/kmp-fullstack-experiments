@@ -29,11 +29,14 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup-action
 
-      - name: Build and publish client user app android
-        uses: ./.github/actions/build-and-publish-client-user-android
+      - name: Select environment client user mobile
+        uses: ./.github/actions/select-environment-client-user-mobile
 
-      - name: Build and publish client user app ios
-        uses: ./.github/actions/build-and-publish-client-user-ios
+      - name: Build client user app android
+        uses: ./.github/actions/build-client-user-android
+
+      - name: Build client user app ios
+        uses: ./.github/actions/build-client-user-ios
 
       - name: Build and publish home app
         uses: ./.github/actions/build-and-publish-client-home
@@ -45,9 +48,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish apk and ipa
-        uses: softprops/action-gh-release@v3
-        with:
-          files: |
-            ./client/apps/user/core/build/outputs/apk/release/core-release.apk
-            ./client/apps/iosApp/build/oneclick.ipa
+      - name: Publish client user mobile
+        uses: ./.github/actions/publish-client-user-mobile

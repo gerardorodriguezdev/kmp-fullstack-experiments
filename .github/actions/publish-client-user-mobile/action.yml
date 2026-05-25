@@ -1,0 +1,11 @@
+name: Publish client user mobile
+
+runs:
+  using: "composite"
+  steps:
+    - name: Publish client user mobile
+      uses: softprops/action-gh-release@v3
+      with:
+        files: |
+          ./client/apps/user/core/build/outputs/apk/release/core-release.apk
+          ./client/apps/iosApp/build/oneclick.ipa

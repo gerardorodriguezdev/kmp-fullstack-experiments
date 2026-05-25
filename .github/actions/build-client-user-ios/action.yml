@@ -1,4 +1,4 @@
-name: Build ios ipa
+name: Build client user ios
 
 runs:
   using: composite

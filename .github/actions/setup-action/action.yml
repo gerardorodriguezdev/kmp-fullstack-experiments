@@ -16,8 +16,3 @@ runs:
       uses: gradle/actions/setup-gradle@v6
       with:
         gradle-version: '9.5.0'
-
-    - name: Select environment
-      shell: bash
-      run: |
-        ./gradlew :client:apps:user:core:selectEnvironment -PnewSelectedEnvironment=production

@@ -1,0 +1,9 @@
+name: Select environment client user mobile
+
+runs:
+  using: "composite"
+  steps:
+    - name: Select environment
+      shell: bash
+      run: |
+        ./gradlew :client:apps:user:core:selectEnvironment -PnewSelectedEnvironment=production
