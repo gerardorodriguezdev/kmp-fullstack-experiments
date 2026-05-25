@@ -20,6 +20,7 @@ runs:
 
     - name: Zip ipa
       shell: bash
+      working-directory: client/apps/user/iosApp
       run: |
         mkdir build/Payload
         cp -r build/iosApp.xcarchive/Products/Applications/oneclick.app build/Payload
