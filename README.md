@@ -2,12 +2,12 @@ Home automation project to experiment with fullstack kmp
 
 ## Basic functionality
 
-1) Bluetooth device sends event to **Home app**
+1) Bluetooth device sends an event to **Home app**
 2) **Home app** receives the event and sends it to **App service**
 3) **App service** receives the event and stores it in a redis/postgres database for the specific user
-4) The **User app** retrieves the devices and events from the **App service** for the specific user
+4) The **User app** retrieves the devices and events from the **App service**
 
-## Pieces
+## Components
 
 - Server
     - App service
@@ -20,55 +20,21 @@ Home automation project to experiment with fullstack kmp
     - Home app
         - Jvm target
 
-## Features
+## Artifacts
 
-Server:
+All artifacts are production in mind but made with fake credentials
 
-- Ktor Jvm
-- Postgres
-- Redis
-- JWT for fast authentication but its contents are encrypted
-- Secure sessions for browser authentication
-- Bearer token for native devices authentication
-- Locally runnable with in-memory data sources
-- Simple Java Email sender
-- Password authentication
-- User pre-authentication
-- JWT blacklisting
-- Wasm application served by Ktor automatically with security best practices
-- Multi-client authentication with the same flow
-- Safe-validated models from creation to use from server to client and vice versa
-- Code reused between all targets as much as possible
+- Server
+    - App service = Docker image
 
-User client
+- Client
+    - User app
+        - Android target = apk
+        - iOS target = ipa (unsigned)
+        - Browser target = wasm
+    - Home app
+        - Jvm target = Docker image
 
-- Android/iOS/Browser targets
-- Kotlin inject
-- Session scoped dependencies
-- Locally testable with locally running servers (mock/production)
-- Encrypted shared preferences
+## Deployment
 
-Home client
-
-- Jvm target
-- User authentication from the command line
-- Bluetooth communication through Kable
-- Manual setup of Jib for docker image creation
-- Able to run locally with real/mock bluetooth devices
-
-Gradle plugins
-
-- Standardized plugins for libraries and apps
-- Docker image configuration
-- Docker compose configuration
-- Postgres configuration
-- Redis configuration
-- Fake server for the browser client
-- Easy Wasm distribution serving for server
-- Wasm configuration with compression, HTML generation, deliverables with hashes for caching
-
-CI
-
-- Creation of environments
-- Creation of artifacts for each target
-- Upload of artifacts
+The deployment is not part of the project, only the creation of the artifacts
