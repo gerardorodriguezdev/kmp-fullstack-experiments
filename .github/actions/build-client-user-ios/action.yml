@@ -5,13 +5,14 @@ runs:
   steps:
     - name: Build app
       shell: bash
+      working-directory: client/apps/user/iosApp
       run: |
         xcodebuild clean archive \
-          -project client/apps/user/iosApp/iosApp.xcodeproj \
+          -project iosApp.xcodeproj \
           -scheme "iosApp" \
           -configuration Release \
           -sdk iphoneos \
-          -archivePath client/apps/user/iosApp/build/iosApp.xcarchive \
+          -archivePath build/iosApp.xcarchive \
           CODE_SIGN_IDENTITY="" \
           CODE_SIGNING_REQUIRED=NO \
           CODE_SIGNING_ALLOWED=NO \
@@ -20,6 +21,6 @@ runs:
     - name: Zip ipa
       shell: bash
       run: |
-        mkdir client/apps/user/iosApp/build/Payload
-        cp -r client/apps/user/iosApp/build/iosApp.xcarchive/Products/Applications/oneclick.app client/apps/user/iosApp/build/Payload
-        (cd client/apps/user/iosApp/build && zip -qr oneclick.ipa Payload)
+        mkdir build/Payload
+        cp -r build/iosApp.xcarchive/Products/Applications/oneclick.app build/Payload
+        (cd build && zip -qr oneclick.ipa Payload)
