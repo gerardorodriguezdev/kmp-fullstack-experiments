@@ -24,7 +24,7 @@ private data class RequestBodyLimitConfiguration(
     var bodyLimit: Int = DEFAULT_BODY_LIMIT,
 ) {
     companion object {
-        const val DEFAULT_BODY_LIMIT = 2048
+        const val DEFAULT_BODY_LIMIT = 2_048
     }
 }
 

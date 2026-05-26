@@ -10,9 +10,9 @@ class DebugEmailService(private val appLogger: AppLogger) : EmailService {
     ): Boolean {
         appLogger.i(
             """
-                subject: $subject
-                body: $body
-            """.trimIndent()
+            |subject: $subject
+            |body: $body
+            """.trimMargin()
         )
         return true
     }

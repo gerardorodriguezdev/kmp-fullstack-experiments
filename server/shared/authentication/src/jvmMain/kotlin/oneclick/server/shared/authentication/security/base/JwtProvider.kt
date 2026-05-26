@@ -12,12 +12,13 @@ import oneclick.shared.contracts.core.models.Uuid.Companion.toUuid
 import oneclick.shared.security.encryption.base.Encryptor
 import oneclick.shared.timeProvider.TimeProvider
 import java.util.*
+import kotlin.time.Duration
 
 abstract class BaseEncryptedJwtProvider(
     private val secretSignKey: String,
     private val audience: String,
     private val issuer: String,
-    private val expirationTime: Long,
+    private val expirationTime: Duration,
     private val timeProvider: TimeProvider,
     private val encryptor: Encryptor,
     private val uuidProvider: UuidProvider,
@@ -49,7 +50,7 @@ abstract class BaseEncryptedJwtProvider(
 
     private fun jwtExpiration(): Date {
         val currentTimeMillis = timeProvider.currentTimeMillis()
-        return Date(currentTimeMillis + expirationTime)
+        return Date(currentTimeMillis + expirationTime.inWholeMilliseconds)
     }
 
     protected fun jwtId(id: Uuid): JwtId {

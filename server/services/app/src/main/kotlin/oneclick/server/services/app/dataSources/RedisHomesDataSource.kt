@@ -13,7 +13,6 @@ import oneclick.shared.contracts.core.models.*
 import oneclick.shared.contracts.homes.models.Home
 import oneclick.shared.dispatchers.platform.DispatchersProvider
 import oneclick.shared.logging.AppLogger
-import oneclick.shared.logging.AppLogger.Companion.e
 
 @OptIn(ExperimentalLettuceCoroutinesApi::class)
 internal class RedisHomesDataSource(

@@ -10,7 +10,6 @@ import oneclick.shared.contracts.auth.models.Username
 import oneclick.shared.contracts.core.models.Uuid
 import oneclick.shared.dispatchers.platform.DispatchersProvider
 import oneclick.shared.logging.AppLogger
-import oneclick.shared.logging.AppLogger.Companion.e
 
 internal class PostgresUsersDataSource(
     private val database: AppDatabase,

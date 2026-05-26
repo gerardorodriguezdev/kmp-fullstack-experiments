@@ -6,6 +6,7 @@ import oneclick.shared.contracts.auth.models.Jwt
 import oneclick.shared.contracts.core.models.Uuid
 import oneclick.shared.security.encryption.base.Encryptor
 import oneclick.shared.timeProvider.TimeProvider
+import kotlin.time.Duration.Companion.days
 
 internal class HomeJwtProvider(
     secretSignKey: String,
@@ -18,7 +19,7 @@ internal class HomeJwtProvider(
     secretSignKey = secretSignKey,
     audience = audience,
     issuer = issuer,
-    expirationTime = JWT_EXPIRATION_TIME,
+    expirationTime = jwtExpirationTime,
     timeProvider = timeProvider,
     encryptor = encryptor,
     uuidProvider = uuidProvider,
@@ -41,6 +42,6 @@ internal class HomeJwtProvider(
     companion object {
         const val USER_ID_CLAIM = "userId"
         const val HOME_ID_CLAIM = "homeId"
-        const val JWT_EXPIRATION_TIME = 60 * 60 * 24 * 30L
+        val jwtExpirationTime = 30.days
     }
 }

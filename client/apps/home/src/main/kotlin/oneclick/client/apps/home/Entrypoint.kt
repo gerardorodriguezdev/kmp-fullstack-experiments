@@ -12,6 +12,7 @@ import oneclick.client.shared.network.platform.AuthenticationDataSource
 import oneclick.shared.contracts.homes.models.requests.SyncDevicesRequest
 import oneclick.shared.dispatchers.platform.DispatchersProvider
 import oneclick.shared.logging.AppLogger
+import kotlin.time.Duration.Companion.milliseconds
 
 internal class Entrypoint(
     private val dispatchersProvider: DispatchersProvider,
@@ -36,13 +37,13 @@ internal class Entrypoint(
                 while (isActive) {
                     syncJob?.cancel()
                     syncJob = launch { sync() }
-                    delay(SYNC_INTERVAL)
+                    delay(syncInterval)
                 }
             }
 
             launch {
                 var shouldScan = true
-                var scanDelay = STARTING_SCAN_INTERVAL
+                var scanDelay = startingScanInterval
 
                 while (shouldScan && isActive) {
                     shouldScan = !devicesController.scan()
@@ -55,7 +56,9 @@ internal class Entrypoint(
 
     private suspend fun commands() {
         print("> ")
+
         val commandString = readlnOrNull()?.trim()
+
         if (!commandString.isNullOrEmpty()) {
             when (val commandResult = CommandsParser.parse(commandString)) {
                 is CommandParserResult.Success -> commandsHandler.execute(commandResult.command)
@@ -75,7 +78,7 @@ internal class Entrypoint(
     }
 
     private companion object {
-        const val SYNC_INTERVAL = 5000L
-        const val STARTING_SCAN_INTERVAL = 1_000L
+        val syncInterval = 5_000L.milliseconds
+        val startingScanInterval = 1_000L.milliseconds
     }
 }

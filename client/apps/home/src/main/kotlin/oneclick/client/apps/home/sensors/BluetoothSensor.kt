@@ -5,6 +5,7 @@ import com.juul.kable.Peripheral
 import com.juul.kable.PlatformAdvertisement
 import com.juul.kable.Scanner
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.mapNotNull
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.timeout
 import oneclick.client.apps.home.models.DeviceType
 import oneclick.shared.contracts.core.models.Uuid
 import oneclick.shared.contracts.core.models.Uuid.Companion.toUuid
-import kotlin.time.Duration.Companion.milliseconds
+import oneclick.shared.logging.AppLogger
+import kotlin.time.Duration.Companion.seconds
 import kotlin.uuid.ExperimentalUuidApi
 
 internal interface BluetoothSensor {
@@ -33,7 +35,7 @@ internal interface BluetoothSensor {
 
     companion object {
         private const val NAME_PREFIX = "OneClick"
-        private const val SCAN_TIMEOUT = 10_000L
+        private val scanTimeout = 10_000L.seconds
 
         @OptIn(ExperimentalUuidApi::class)
         fun bluetoothScanner(serviceUuid: kotlin.uuid.Uuid): Scanner<PlatformAdvertisement> =
@@ -50,7 +52,8 @@ internal interface BluetoothSensor {
         @OptIn(FlowPreview::class)
         fun bluetoothSensors(
             scanner: Scanner<PlatformAdvertisement>,
-            bluetoothSensorProvider: (id: Uuid, peripheral: Peripheral) -> BluetoothSensor,
+            bluetoothSensorProvider: (id: Uuid, peripheral: Peripheral, appLogger: AppLogger) -> BluetoothSensor,
+            appLogger: AppLogger,
         ): Flow<BluetoothSensor> {
             val bluetoothSensorsIds = mutableSetOf<Uuid>()
 
@@ -63,10 +66,14 @@ internal interface BluetoothSensor {
 
                     bluetoothSensorsIds.add(bluetoothSensorId)
                     val peripheral = Peripheral(advertisement)
-                    bluetoothSensorProvider(bluetoothSensorId, peripheral)
+                    bluetoothSensorProvider(bluetoothSensorId, peripheral, appLogger)
                 }
-                .timeout(SCAN_TIMEOUT.milliseconds)
-                .catch { _ -> }
+                .timeout(scanTimeout)
+                .catch { error ->
+                    if (error !is TimeoutCancellationException) {
+                        appLogger.e("Exception '${error.stackTraceToString()}' while getting bluetooth sensors")
+                    }
+                }
         }
     }
 }

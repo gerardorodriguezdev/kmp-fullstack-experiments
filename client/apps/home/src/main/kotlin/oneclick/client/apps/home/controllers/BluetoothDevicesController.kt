@@ -24,10 +24,7 @@ internal class BluetoothDevicesController(
                         bluetoothSensor.connection.collect { connection ->
                             when (connection) {
                                 Connection.CONNECTED -> Unit
-
-                                Connection.DISCONNECTED -> {
-                                    bluetoothSensor.connect()
-                                }
+                                Connection.DISCONNECTED -> bluetoothSensor.connect()
                             }
                         }
                     }
@@ -51,9 +48,4 @@ internal class BluetoothDevicesController(
             appLogger.e("Exception '${error.stackTraceToString()}' while scanning bluetooth sensors")
             false
         }
-
-    private companion object {
-        const val STARTING_CONNECTION_DELAY = 1_000L
-        const val MAX_CONNECTION_DELAY = 60_000L
-    }
 }

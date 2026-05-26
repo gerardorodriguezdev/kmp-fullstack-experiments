@@ -14,7 +14,6 @@ import oneclick.shared.contracts.homes.models.Device
 import oneclick.shared.contracts.homes.models.Home
 import oneclick.shared.dispatchers.platform.DispatchersProvider
 import oneclick.shared.logging.AppLogger
-import oneclick.shared.logging.AppLogger.Companion.e
 
 internal class PostgresHomesDataSource(
     private val database: AppDatabase,

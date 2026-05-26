@@ -9,7 +9,6 @@ import oneclick.server.services.app.dataSources.models.RegistrableUser
 import oneclick.server.shared.authentication.models.RegistrationCode
 import oneclick.shared.dispatchers.platform.DispatchersProvider
 import oneclick.shared.logging.AppLogger
-import oneclick.shared.logging.AppLogger.Companion.e
 
 @OptIn(ExperimentalLettuceCoroutinesApi::class)
 internal class RedisRegistrableUsersDataSource(

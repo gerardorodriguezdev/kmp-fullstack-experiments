@@ -5,10 +5,10 @@ interface AppLogger {
     fun i(tag: String, message: String)
     fun e(message: String)
     fun e(tag: String, message: String)
+    fun e(message: String, error: Throwable) = e("$message '${error.stackTraceToString()}'")
 
     companion object {
         const val DEFAULT_TAG = "[AppLogger]"
-        fun AppLogger.e(message: String, error: Throwable) = e("$message '${error.stackTraceToString()}'")
     }
 }
 

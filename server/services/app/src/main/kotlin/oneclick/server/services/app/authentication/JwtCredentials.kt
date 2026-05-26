@@ -2,10 +2,11 @@ package oneclick.server.services.app.authentication
 
 import kotlinx.serialization.Serializable
 import oneclick.shared.contracts.core.models.Uuid
+import kotlin.time.Duration
 
 internal sealed interface JwtCredentials {
     val jti: Uuid
-    val expirationTime: Long
+    val expirationTime: Duration
 
     @Serializable
     data class HomeJwtCredentials(
@@ -13,7 +14,7 @@ internal sealed interface JwtCredentials {
         val userId: Uuid,
         val homeId: Uuid,
     ) : JwtCredentials {
-        override val expirationTime: Long = HomeJwtProvider.JWT_EXPIRATION_TIME
+        override val expirationTime: Duration = HomeJwtProvider.jwtExpirationTime
     }
 
     @Serializable
@@ -21,6 +22,6 @@ internal sealed interface JwtCredentials {
         override val jti: Uuid,
         val userId: Uuid,
     ) : JwtCredentials {
-        override val expirationTime: Long = UserJwtProvider.JWT_EXPIRATION_TIME
+        override val expirationTime: Duration = UserJwtProvider.jwtExpirationTime
     }
 }

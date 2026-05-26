@@ -9,6 +9,8 @@ import oneclick.client.apps.home.dataSources.MemoryDevicesStore
 import oneclick.client.apps.home.dataSources.RemoteHomeDataSource
 import oneclick.client.apps.home.sensors.DSDBluetoothSensor
 import oneclick.client.apps.home.utils.FileAppLogger
+import oneclick.client.apps.home.utils.createDirectoryIfNotExists
+import oneclick.client.apps.home.utils.createFileIfNotExists
 import oneclick.client.shared.network.dataSources.DataStoreEncryptedPreferences
 import oneclick.client.shared.network.dataSources.LocalTokenDataSource
 import oneclick.client.shared.network.dataSources.RemoteAuthenticationDataSource
@@ -28,14 +30,13 @@ fun main() {
     val environment = Environment()
     val dispatchersProvider = dispatchersProvider()
     val timeProvider = SystemTimeProvider()
-
-    val localDirectory = File("local")
-    if (!localDirectory.exists()) localDirectory.mkdirs()
-
+    val localDirectory = File("local").apply {
+        createDirectoryIfNotExists()
+    }
     val appLogger = if (environment.useFileAppLogger) {
         FileAppLogger(
             file = File(localDirectory, "logs.txt").apply {
-                createIfNotExists()
+                createFileIfNotExists()
             },
             timeProvider = timeProvider,
         )
@@ -47,7 +48,7 @@ fun main() {
         preferences = DataStoreEncryptedPreferences(
             preferencesFileProvider = {
                 File(localDirectory, "settings.preferences_pb").apply {
-                    createIfNotExists()
+                    createFileIfNotExists()
                 }
             },
             appLogger = appLogger,
@@ -107,16 +108,10 @@ fun main() {
                 appLogger = appLogger,
                 devicesStore = devicesStore,
                 backgroundScope = CoroutineScope(dispatchersProvider.io()),
-                bluetoothSensorsProvider = DSDBluetoothSensor.dsdBluetoothSensors(),
+                bluetoothSensorsProvider = DSDBluetoothSensor.dsdBluetoothSensors(appLogger),
             )
         }
     ).start()
-}
-
-private fun File.createIfNotExists() {
-    if (!exists()) {
-        createNewFile()
-    }
 }
 
 private class Environment(

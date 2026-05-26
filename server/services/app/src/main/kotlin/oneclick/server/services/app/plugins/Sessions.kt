@@ -10,7 +10,7 @@ internal fun Application.configureSessions(disableSecureCookies: Boolean) {
     install(Sessions) {
         cookie<Jwt>(AuthenticationType.USER_SESSION.value) {
             cookie.path = "/"
-            cookie.maxAgeInSeconds = UserJwtProvider.JWT_EXPIRATION_TIME
+            cookie.maxAgeInSeconds = UserJwtProvider.jwtExpirationTime.inWholeSeconds
             cookie.secure = !disableSecureCookies
             cookie.httpOnly = true
         }

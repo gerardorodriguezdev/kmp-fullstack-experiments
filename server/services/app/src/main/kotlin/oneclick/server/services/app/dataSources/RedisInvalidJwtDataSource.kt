@@ -3,8 +3,8 @@ package oneclick.server.services.app.dataSources
 import io.lettuce.core.ExperimentalLettuceCoroutinesApi
 import io.lettuce.core.api.coroutines.RedisCoroutinesCommands
 import kotlinx.coroutines.withContext
-import oneclick.server.services.app.dataSources.base.InvalidJwtDataSource
 import oneclick.server.services.app.authentication.JwtCredentials
+import oneclick.server.services.app.dataSources.base.InvalidJwtDataSource
 import oneclick.shared.contracts.core.models.Uuid
 import oneclick.shared.dispatchers.platform.DispatchersProvider
 
@@ -24,7 +24,7 @@ internal class RedisInvalidJwtDataSource(
             val reply =
                 syncCommands.setex(
                     jwtCredentials.jti.value,
-                    jwtCredentials.expirationTime,
+                    jwtCredentials.expirationTime.inWholeSeconds,
                     jwtCredentials.jti.value,
                 )
             reply != null

@@ -12,11 +12,13 @@ import oneclick.client.apps.home.sensors.BluetoothSensor.Companion.bluetoothSens
 import oneclick.client.apps.home.sensors.BluetoothSensor.Connection
 import oneclick.client.apps.home.sensors.BluetoothSensor.State
 import oneclick.shared.contracts.core.models.Uuid
+import oneclick.shared.logging.AppLogger
 import kotlin.uuid.ExperimentalUuidApi
 
 internal class DSDBluetoothSensor(
     override val id: Uuid,
     private val peripheral: Peripheral,
+    private val appLogger: AppLogger,
 ) : BluetoothSensor {
     private val deviceType = MutableStateFlow<DeviceType?>(null)
     private val rawData = MutableStateFlow<String?>(null)
@@ -47,7 +49,10 @@ internal class DSDBluetoothSensor(
                     } else {
                         setCommunicationType(CommunicationType.DATA)
                     }
+                }
 
+                launch {
+                    //TODO: Refactor
                     peripheral
                         .observe(customCharacteristic)
                         .collect { byteArray ->
@@ -95,7 +100,8 @@ internal class DSDBluetoothSensor(
                         }
                 }
             }
-        } catch (_: Exception) {
+        } catch (error: Exception) {
+            appLogger.e("Exception '${error.stackTraceToString()}' while connecting to bluetooth sensor")
             peripheral.disconnect()
         }
     }
@@ -117,7 +123,7 @@ internal class DSDBluetoothSensor(
             characteristic = customCharacteristicUuid,
         )
         private val dsdBluetoothScanner = bluetoothScanner(customServiceUuid)
-        fun dsdBluetoothSensors(): Flow<BluetoothSensor> =
-            bluetoothSensors(dsdBluetoothScanner, ::DSDBluetoothSensor)
+        fun dsdBluetoothSensors(appLogger: AppLogger): Flow<BluetoothSensor> =
+            bluetoothSensors(dsdBluetoothScanner, ::DSDBluetoothSensor, appLogger)
     }
 }
