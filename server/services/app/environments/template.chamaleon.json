@@ -145,6 +145,11 @@
       "name": "IS_DEBUG",
       "propertyType": "Boolean",
       "nullable": true
+    },
+    {
+      "name": "ALLOW_LOCAL_ORIGINS",
+      "propertyType": "Boolean",
+      "nullable": true
     }
   ]
 }

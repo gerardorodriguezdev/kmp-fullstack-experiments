@@ -32,7 +32,7 @@
       },
       {
         "name": "KEYSTORE_PATH",
-        "value": "dev/debug-keystore.jks"
+        "value": "local/debug-keystore.jks"
       },
       {
         "name": "KEYSTORE_PASSWORD",
@@ -52,7 +52,7 @@
       },
       {
         "name": "USE_FILE_APP_LOGGER",
-        "value": false
+        "value": true
       }
     ]
   }
