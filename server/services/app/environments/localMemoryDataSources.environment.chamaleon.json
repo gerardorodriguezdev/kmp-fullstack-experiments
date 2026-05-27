@@ -28,7 +28,7 @@
       },
       {
         "name": "ORIGIN_URL",
-        "value": "http://localhost"
+        "value": "http://localhost:8080"
       },
       {
         "name": "POSTGRES_PORT",

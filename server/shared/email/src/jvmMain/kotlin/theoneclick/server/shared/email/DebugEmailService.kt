@@ -10,6 +10,7 @@ class DebugEmailService(private val appLogger: AppLogger) : EmailService {
     ): Boolean {
         appLogger.i(
             """
+            |Email sent with content:
             |subject: $subject
             |body: $body
             """.trimMargin()
