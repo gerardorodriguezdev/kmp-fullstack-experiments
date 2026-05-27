@@ -19,7 +19,13 @@ class FileKeystoreEncryptor(
     private val keyStore: KeyStore = KeyStore.getInstance(KeyStore.getDefaultType())
 
     init {
-        if (File(keyStorePath).exists()) {
+        val keystoreFile = File(keyStorePath)
+
+        if (!keystoreFile.parentFile.exists()) {
+            keystoreFile.parentFile.mkdirs()
+        }
+
+        if (keystoreFile.exists()) {
             keyStore.load(FileInputStream(keyStorePath), keyStorePassword)
         } else {
             keyStore.load(null, keyStorePassword)

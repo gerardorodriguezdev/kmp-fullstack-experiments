@@ -48,7 +48,7 @@ internal fun server(dependencies: Dependencies): EmbeddedServer<NettyApplication
                 registrableUsersRepository = dependencies.registrableUsersRepository,
                 prometheusMeterRegistry = dependencies.prometheusMeterRegistry
             )
-            configureCsrf(originUrl = dependencies.originUrl)
+            configureCsrf(originUrl = dependencies.originUrl, allowLocalOrigins = dependencies.allowLocalOrigins)
             configureHsts(disableHsts = dependencies.disableHsts)
             configureHttpsRedirect(disableHttpsRedirect = dependencies.disableHttpsRedirect)
             configureMicrometer(prometheusMeterRegistry = dependencies.prometheusMeterRegistry)

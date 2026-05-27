@@ -107,6 +107,7 @@ fun main() {
         disableHsts = environment.disableHsts,
         disableHttpsRedirect = environment.disableHttpsRedirect,
         originUrl = environment.originUrl,
+        allowLocalOrigins = environment.allowLocalOrigins,
         prometheusMeterRegistry = prometheusMeterRegistry,
     )
 
@@ -258,6 +259,7 @@ private class Environment(
     val disableHttpsRedirect: Boolean = System.getenv("DISABLE_HTTPS_REDIRECT") == "true",
     val disableRateLimit: Boolean = System.getenv("DISABLE_RATE_LIMIT") == "true",
     val createDatabaseTables: Boolean = System.getenv("CREATE_DATABASE_TABLES") == "true",
+    val allowLocalOrigins: Boolean = System.getenv("ALLOW_LOCAL_ORIGINS") == "true",
 ) {
     val jdbcUrl: String = "jdbc:postgresql://$postgresHost:$postgresPort/$postgresDatabase"
 }

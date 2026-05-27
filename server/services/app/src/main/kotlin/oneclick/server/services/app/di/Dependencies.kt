@@ -38,4 +38,5 @@ internal class Dependencies(
     val disableSecureCookie: Boolean,
     val disableHsts: Boolean,
     val disableHttpsRedirect: Boolean,
+    val allowLocalOrigins: Boolean,
 )
