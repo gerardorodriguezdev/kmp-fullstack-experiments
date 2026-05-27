@@ -14,7 +14,6 @@ import oneclick.client.shared.network.platform.androidHttpClientEngine
 import oneclick.shared.dispatchers.platform.dispatchersProvider
 import oneclick.shared.logging.EmptyAppLogger
 import oneclick.shared.logging.appLogger
-import oneclick.shared.security.DefaultSecureRandomProvider
 import oneclick.shared.security.encryption.AndroidKeystoreEncryptor
 import oneclick.shared.timeProvider.SystemTimeProvider
 
@@ -28,7 +27,6 @@ class OneClickApplication : Application() {
         super.onCreate()
 
         ComposeStabilityAnalyzer.setEnabled(Conf.isDebug)
-        val secureRandomProvider = DefaultSecureRandomProvider()
         val appLogger = if (Conf.isDebug) appLogger() else EmptyAppLogger()
         val dispatchersProvider = dispatchersProvider()
         val encryptedPreferences = DataStoreEncryptedPreferences(
@@ -37,7 +35,7 @@ class OneClickApplication : Application() {
             },
             appLogger = appLogger,
             dispatchersProvider = dispatchersProvider,
-            encryptor = AndroidKeystoreEncryptor(secureRandomProvider),
+            encryptor = AndroidKeystoreEncryptor(),
         )
         val tokenDataSource = LocalTokenDataSource(encryptedPreferences)
         val navigationController = DefaultNavigationController()
@@ -51,7 +49,7 @@ class OneClickApplication : Application() {
             appLogger = appLogger,
             httpClientEngine = androidHttpClientEngine(timeProvider = SystemTimeProvider()),
             tokenDataSource = tokenDataSource,
-            dispatchersProvider = dispatchersProvider(),
+            dispatchersProvider = dispatchersProvider,
             navigationController = navigationController,
             logoutManager = AndroidLogoutManager(
                 navigationController = navigationController,
@@ -78,7 +76,7 @@ class OneClickApplication : Application() {
             detectCustomSlowCalls()
             detectResourceMismatches()
             detectUnbufferedIo()
-            // detectDiskReads() | Required to be disabled
+            // detectDiskReads()
         }
 
     private fun StrictMode.ThreadPolicy.Builder.penalties(): StrictMode.ThreadPolicy.Builder =

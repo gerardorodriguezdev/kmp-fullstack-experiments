@@ -2,16 +2,13 @@ package oneclick.shared.security.encryption
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import oneclick.shared.security.SecureRandomProvider
 import oneclick.shared.security.encryption.base.BaseEncryptor
 import java.security.Key
 import java.security.KeyStore
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 
-class AndroidKeystoreEncryptor(
-    secureRandomProvider: SecureRandomProvider
-) : BaseEncryptor(secureRandomProvider) {
+class AndroidKeystoreEncryptor : BaseEncryptor() {
     override val transformation: String = "$ALGORITHM/$BLOCK_MODE/$PADDING"
     private val keyStore: KeyStore = KeyStore.getInstance(KEY_STORE_TYPE)
 
@@ -56,7 +53,7 @@ class AndroidKeystoreEncryptor(
         const val KEY_STORE_TYPE = "AndroidKeyStore"
         const val KEY_SIZE = 256
         const val ALGORITHM: String = KeyProperties.KEY_ALGORITHM_AES
-        const val BLOCK_MODE: String = KeyProperties.BLOCK_MODE_CBC
-        const val PADDING: String = KeyProperties.ENCRYPTION_PADDING_PKCS7
+        const val BLOCK_MODE: String = KeyProperties.BLOCK_MODE_GCM
+        const val PADDING: String = KeyProperties.ENCRYPTION_PADDING_NONE
     }
 }

@@ -13,9 +13,9 @@ import javax.crypto.SecretKey
 class FileKeystoreEncryptor(
     private val keyStorePath: String,
     private val keyStorePassword: CharArray,
-    secureRandomProvider: SecureRandomProvider
-) : BaseEncryptor(secureRandomProvider) {
-    override val transformation: String = "$ALGORITHM/CBC/PKCS5Padding"
+    private val secureRandomProvider: SecureRandomProvider
+) : BaseEncryptor() {
+    override val transformation: String = "$ALGORITHM/$BLOCK_MODE/$PADDING"
     private val keyStore: KeyStore = KeyStore.getInstance(KeyStore.getDefaultType())
 
     init {
@@ -74,5 +74,7 @@ class FileKeystoreEncryptor(
         const val KEY_STORE_ALIAS = "secret"
         const val KEY_SIZE = 256
         const val ALGORITHM = "AES"
+        const val BLOCK_MODE: String = "GCM"
+        const val PADDING: String = "NoPadding"
     }
 }
