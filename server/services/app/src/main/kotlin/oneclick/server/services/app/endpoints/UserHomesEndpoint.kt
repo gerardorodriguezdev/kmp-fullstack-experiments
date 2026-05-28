@@ -1,5 +1,6 @@
 package oneclick.server.services.app.endpoints
 
+import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import oneclick.server.services.app.plugins.authentication.requireUserJwtCredentials
@@ -22,8 +23,10 @@ internal fun Routing.userHomesEndpoint(homesRepository: HomesRepository) {
             )
 
             if (homesEntry == null) {
+                call.application.log.debug("Homes entry not found")
                 call.respond(HomesResponse(data = null))
             } else {
+                call.application.log.debug("Returning homes")
                 HomesResponse(
                     data = Data(
                         homes = homesEntry.value.homes,

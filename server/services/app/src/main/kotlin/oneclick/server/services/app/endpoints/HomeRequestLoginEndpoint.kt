@@ -95,6 +95,7 @@ private suspend fun RoutingContext.registerHome(
 }
 
 private suspend fun RoutingContext.respondValidLogin(jwt: Jwt) {
+    call.application.log.debug("Valid login")
     call.respond<HomeRequestLoginResponse>(
         HomeRequestLoginResponse.ValidLogin(jwt = jwt)
     )

@@ -23,6 +23,7 @@ internal fun Routing.logoutEndpoint(invalidJwtDataSource: InvalidJwtDataSource) 
                 return@get
             }
 
+            application.log.debug("Logged out")
             call.sessions.clear<Jwt>()
             call.respond(HttpStatusCode.OK)
         }

@@ -120,6 +120,7 @@ private suspend fun RoutingContext.sendApprovalEmail(
 }
 
 private suspend fun RoutingContext.respondValidLogin(jwt: Jwt, clientType: ClientType) {
+    call.application.log.debug("Valid login")
     when (clientType) {
         ClientType.MOBILE -> {
             call.respond<MobileRequestLoginResponse>(
@@ -137,6 +138,7 @@ private suspend fun RoutingContext.respondValidLogin(jwt: Jwt, clientType: Clien
 }
 
 private suspend fun RoutingContext.respondWaitForApproval(clientType: ClientType) {
+    call.application.log.debug("Waiting for approval")
     when (clientType) {
         ClientType.BROWSER -> call.respond<BrowserRequestLoginResponse>(BrowserRequestLoginResponse.WaitForApproval)
         ClientType.MOBILE -> call.respond<MobileRequestLoginResponse>(MobileRequestLoginResponse.WaitForApproval)

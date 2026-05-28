@@ -34,14 +34,13 @@ fun main() {
     val timeProvider = SystemTimeProvider()
     val encryptor = KtorKeystoreEncryptor(
         secretEncryptionKey = environment.secretEncryptionKey,
-        secureRandomProvider = secureRandomProvider,
     )
     val passwordManager = BcryptPasswordManager(secureRandomProvider)
     val appLogger = appLogger()
     val dispatchersProvider = dispatchersProvider()
     val uuidProvider = DefaultUuidProvider()
     val userJwtProvider = UserJwtProvider(
-        audience = "oneclick-user-api",
+        audience = "oneclick-api",
         issuer = environment.originUrl,
         secretSignKey = environment.secretSignKey,
         timeProvider = timeProvider,
@@ -49,7 +48,7 @@ fun main() {
         uuidProvider = uuidProvider,
     )
     val homeJwtProvider = HomeJwtProvider(
-        audience = "oneclick-home-api",
+        audience = "oneclick-api",
         issuer = environment.originUrl,
         secretSignKey = environment.secretSignKey,
         timeProvider = timeProvider,
@@ -115,26 +114,23 @@ fun main() {
 }
 
 private fun memoryRepositories(timeProvider: TimeProvider): Repositories {
-    val memoryUsersDataSource = MemoryUsersDataSource()
     val usersRepository = DefaultUsersRepository(
-        diskUsersDataSource = memoryUsersDataSource,
-        memoryUsersDataSource = memoryUsersDataSource,
+        diskUsersDataSource = MemoryUsersDataSource(),
+        memoryUsersDataSource = MemoryUsersDataSource(),
     )
 
-    val memoryHomesDataSource = MemoryHomesDataSource()
     val homesRepository = DefaultHomesRepository(
-        memoryHomesDataSource = memoryHomesDataSource,
-        diskHomesDataSource = memoryHomesDataSource,
+        memoryHomesDataSource = MemoryHomesDataSource(),
+        diskHomesDataSource = MemoryHomesDataSource(),
     )
 
     val memoryInvalidJwtDataSource = MemoryInvalidJwtDataSource(
         timeProvider = timeProvider,
     )
 
-    val memoryRegistrableUsersDataSource = MemoryRegistrableUsersDataSource()
     val registrableUsersRepository = DefaultRegistrableUsersRepository(
-        memoryRegistrableUsersDataSource = memoryRegistrableUsersDataSource,
-        diskRegistrableUsersDataSource = memoryRegistrableUsersDataSource,
+        memoryRegistrableUsersDataSource = MemoryRegistrableUsersDataSource(),
+        diskRegistrableUsersDataSource = MemoryRegistrableUsersDataSource(),
     )
 
     return Repositories(

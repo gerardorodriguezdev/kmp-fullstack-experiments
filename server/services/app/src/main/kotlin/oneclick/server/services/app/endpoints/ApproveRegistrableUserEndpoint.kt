@@ -23,12 +23,14 @@ internal fun Routing.userApproveRegistrableUserEndpoint(
             val registrationCode = registrationCodeString?.toRegistrationCode()
 
             if (registrationCode == null) {
+                call.application.log.debug("Registration code null")
                 call.respond(HttpStatusCode.NotFound)
                 return@get
             }
 
             val registrableUser = registrableUsersRepository.registrableUser(registrationCode)
             if (registrableUser == null) {
+                call.application.log.debug("Registrable user not found")
                 call.respond(HttpStatusCode.NotFound)
                 return@get
             }

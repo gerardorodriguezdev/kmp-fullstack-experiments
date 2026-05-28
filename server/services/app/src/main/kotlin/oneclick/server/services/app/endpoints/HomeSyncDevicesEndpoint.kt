@@ -20,6 +20,7 @@ internal fun Routing.homeSyncDevicesEndpoint(homesRepository: HomesRepository) {
                 home = Home(id = homeId, devices = syncDevicesRequest.devices)
             )
             if (isHomeSaved) {
+                call.application.log.debug("Home saved successfully")
                 call.respond(HttpStatusCode.OK)
             } else {
                 call.application.log.debug("Home not saved")

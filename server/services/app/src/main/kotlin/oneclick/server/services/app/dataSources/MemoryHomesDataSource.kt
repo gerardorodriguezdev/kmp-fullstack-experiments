@@ -73,8 +73,13 @@ internal class MemoryHomesDataSource(
             return true
         } else {
             val newHomes = buildList {
-                addAll(currentHomesEntry.homes)
-                add(home)
+                currentHomesEntry.homes.forEach { currentHome ->
+                    if (currentHome.id == home.id) {
+                        add(home)
+                    } else {
+                        add(currentHome)
+                    }
+                }
             }.toUniqueList()
 
             if (newHomes == null) {
