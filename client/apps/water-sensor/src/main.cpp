@@ -4,8 +4,6 @@
 #include <Utils.h>
 #include <Config.h>
 
-//TODO: Scan with AI
-//TODO: Test with arduino
 constexpr auto mockWaterLevel = 10;
 const auto config = getConfig();
 const auto DATA_BUFFER_SIZE = dataSize(config.deviceType);
