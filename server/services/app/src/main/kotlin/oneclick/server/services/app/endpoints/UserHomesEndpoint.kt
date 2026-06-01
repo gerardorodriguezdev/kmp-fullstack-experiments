@@ -27,11 +27,13 @@ internal fun Routing.userHomesEndpoint(homesRepository: HomesRepository) {
                 call.respond(HomesResponse(data = null))
             } else {
                 call.application.log.debug("Returning homes")
-                HomesResponse(
-                    data = Data(
-                        homes = homesEntry.value.homes,
-                        pageIndex = homesEntry.pageIndex,
-                        canRequestMore = homesEntry.pageIndex < homesEntry.totalPages,
+                call.respond(
+                    HomesResponse(
+                        data = Data(
+                            homes = homesEntry.value.homes,
+                            pageIndex = homesEntry.pageIndex,
+                            canRequestMore = homesEntry.pageIndex < homesEntry.totalPages,
+                        )
                     )
                 )
             }
