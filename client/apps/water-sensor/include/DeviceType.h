@@ -12,6 +12,7 @@ constexpr const char *deviceTypeToString(const DeviceType deviceType) {
     switch (deviceType) {
         case DeviceType::WATER_LEVEL: return "WL";
         case DeviceType::SOUND_ALARM: return "SA";
+        default: return "IN";
     }
 }
 
@@ -19,6 +20,7 @@ constexpr unsigned int deviceTypeToDataSize(const DeviceType deviceType) {
     switch (deviceType) {
         case DeviceType::WATER_LEVEL: return 3;
         case DeviceType::SOUND_ALARM: return 3;
+        default: return 3;
     }
 }
 

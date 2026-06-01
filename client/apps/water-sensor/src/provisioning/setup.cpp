@@ -11,6 +11,7 @@ void setup() {
     Serial.begin(BAUD_RATE);
     bluetooth.begin(BAUD_RATE);
 
+    // Add device type to EEPROM
     EEPROM.put(static_cast<int>(ConfigOptions::DEVICE_TYPE), DeviceType::WATER_LEVEL);
 
     Serial.println("EEPROM configured successfully");
