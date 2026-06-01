@@ -4,11 +4,15 @@
 #include <Utils.h>
 #include <Config.h>
 
+//TODO: Scan with AI
+//TODO: Test with arduino
 constexpr auto mockWaterLevel = 10;
 const auto config = getConfig();
 const auto DATA_BUFFER_SIZE = dataSize(config.deviceType);
-constexpr unsigned int INTERVAL = 1000;
-SoftwareSerial bluetooth(3, 2);
+constexpr unsigned int INTERVAL_IN_MILLIS = 1000;
+constexpr unsigned int RECEIVE_PIN = 3;
+constexpr unsigned int TRANSMIT_PIN = 2;
+SoftwareSerial bluetooth(RECEIVE_PIN, TRANSMIT_PIN);
 auto currentCommunicationType = CommunicationType::INVALID;
 unsigned int lastWaterLevel = 0;
 
@@ -31,30 +35,29 @@ void handleCommunicationType(const CommunicationType communicationType) {
 
     switch (communicationType) {
         case CommunicationType::META_DATA: {
-            Serial.println("CommunicationType meta data");
-
             char metaDataBuffer[META_DATA_FORMAT_SIZE] = {};
             metaData(metaDataBuffer, config.deviceType);
 
             bluetooth.write(metaDataBuffer);
+
             break;
         }
 
         case CommunicationType::DATA: {
-            Serial.println("CommunicationType data");
-
             const auto currentWaterLevel = readWaterLevel();
             lastWaterLevel = currentWaterLevel;
 
-            char dataBuffer[DATA_BUFFER_SIZE];
+            const auto dataBuffer = new char[DATA_BUFFER_SIZE];
             data(dataBuffer, DATA_BUFFER_SIZE, lastWaterLevel);
 
             bluetooth.write(dataBuffer);
+
+            delete[] dataBuffer;
+
             break;
         }
 
         case CommunicationType::INVALID:
-            Serial.println("CommunicationType invalid");
             break;
     }
 }
@@ -66,6 +69,7 @@ boolean shouldReadWaterLevel() {
 void setup() {
     Serial.begin(BAUD_RATE);
     bluetooth.begin(BAUD_RATE);
+
     Serial.println("Device initialized");
 }
 
@@ -76,21 +80,29 @@ void loop() {
 
     if (hasAvailableData) {
         const auto communicationType = readCommunicationType();
+
         Serial.println(communicationTypeToString(communicationType));
+
         handleCommunicationType(communicationType);
     } else {
         if (shouldReadWaterLevel()) {
+            Serial.println("Reading water level");
+
             const auto currentWaterLevel = readWaterLevel();
             if (currentWaterLevel != lastWaterLevel) {
+                Serial.println("Updating water level");
+
                 lastWaterLevel = currentWaterLevel;
 
-                char dataBuffer[DATA_BUFFER_SIZE];
+                const auto dataBuffer = new char[DATA_BUFFER_SIZE];
                 data(dataBuffer, DATA_BUFFER_SIZE, currentWaterLevel);
 
                 bluetooth.write(dataBuffer);
+
+                delete[] dataBuffer;
             }
         }
     }
 
-    delay(INTERVAL);
+    delay(INTERVAL_IN_MILLIS);
 }
