@@ -29,7 +29,7 @@ internal class MemoryHomesDataSource(
         pageSize: PositiveInt,
         currentPageIndex: NonNegativeInt
     ): PaginationResult<HomesEntry> {
-        val firstPageIndex = currentPageIndex.value + 1
+        val firstPageIndex = currentPageIndex.value
         val lastPageIndex = firstPageIndex + pageSize.value
 
         var newPageIndex = 0
@@ -37,7 +37,7 @@ internal class MemoryHomesDataSource(
             for (index in firstPageIndex until lastPageIndex) {
                 val home = homesEntry.homes.getOrNull(index)
                 if (home != null) {
-                    newPageIndex = index
+                    newPageIndex = index + 1
                     add(home)
                 } else {
                     break
