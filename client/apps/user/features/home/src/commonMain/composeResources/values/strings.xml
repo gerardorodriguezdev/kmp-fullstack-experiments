@@ -5,7 +5,7 @@
     <string name="homesListScreen_roomName_room">Room: %1$s</string>
     <string name="homesListScreen_deviceName_room">Device: %1$s</string>
     <string name="homesListScreen_waterSensor_level">Level: %1$s</string>
-    <string name="homesListScreen_waterSensor_type">Water sensor</string>
+    <string name="homesListScreen_waterSensor_type">Water level sensor</string>
 
     <string name="userSettingsScreen_title_userSettings">User settings</string>
     <string name="userSettingsScreen_snackbar_logout">Logout</string>
