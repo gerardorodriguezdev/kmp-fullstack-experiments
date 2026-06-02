@@ -8,14 +8,16 @@ constexpr auto mockWaterLevel = 10;
 const auto config = getConfig();
 const auto DATA_BUFFER_SIZE = dataSize(config.deviceType);
 constexpr unsigned int INTERVAL_IN_MILLIS = 1000;
-constexpr unsigned int RECEIVE_PIN = 3;
-constexpr unsigned int TRANSMIT_PIN = 2;
-SoftwareSerial bluetooth(RECEIVE_PIN, TRANSMIT_PIN);
+constexpr unsigned int BLUETOOTH_RECEIVE_PIN = 3;
+constexpr unsigned int BLUETOOTH_TRANSMIT_PIN = 2;
+constexpr unsigned int WATER_SENSOR_PIN = 5;
+SoftwareSerial bluetooth(BLUETOOTH_RECEIVE_PIN, BLUETOOTH_TRANSMIT_PIN);
 auto currentCommunicationType = CommunicationType::INVALID;
 unsigned int lastWaterLevel = 0;
 
 unsigned int readWaterLevel() {
-    return random(100);
+    const auto waterLevel = digitalRead(WATER_SENSOR_PIN);
+    return waterLevel == HIGH ? 100 : 0;
 }
 
 CommunicationType readCommunicationType() {
@@ -67,6 +69,7 @@ boolean shouldReadWaterLevel() {
 void setup() {
     Serial.begin(BAUD_RATE);
     bluetooth.begin(BAUD_RATE);
+    pinMode(WATER_SENSOR_PIN, INPUT);
 
     Serial.println("Device initialized");
 }
