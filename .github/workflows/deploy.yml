@@ -52,4 +52,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish clients
-        uses: ./.github/actions/publish-client-user-mobile
+        uses: ./.github/actions/publish-clients
