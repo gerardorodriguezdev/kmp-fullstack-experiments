@@ -1,11 +1,12 @@
-Home automation project to experiment with fullstack kmp
+Fullstack kmp home automation project for experimentation
 
 ## Basic functionality
 
-1) Bluetooth device sends an event to **Home app**
-2) **Home app** receives the event and sends it to **App service**
-3) **App service** receives the event and stores it in a redis/postgres database for the specific user
-4) The **User app** retrieves the devices and events from the **App service**
+1) Arduino device reads a water level sensor
+2) The water level is sent by a bluetooth device to **Home app**
+3) **Home app** receives the event and sends it to **App service**
+4) **App service** receives the event and stores it for the specific user
+5) The **User app** retrieves the devices and events from the **App service**
 
 ## Components
 
@@ -19,6 +20,8 @@ Home automation project to experiment with fullstack kmp
         - Browser target (Wasm)
     - Home app
         - Jvm target
+    - Water level sensor
+        - Arduino target
 
 ## Artifacts
 
@@ -34,6 +37,8 @@ All artifacts are production in mind but made with fake credentials
         - Browser target = wasm
     - Home app
         - Jvm target = Docker image
+    - Water level sensor
+        - Arduino target = Hex file
 
 ## Deployment
 
