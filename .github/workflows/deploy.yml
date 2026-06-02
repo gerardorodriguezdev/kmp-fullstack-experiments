@@ -38,6 +38,9 @@ jobs:
       - name: Build client user app ios
         uses: ./.github/actions/build-client-user-ios
 
+      - name: Build client water level sensor
+        uses: ./.github/actions/build-client-water-level-sensor
+
       - name: Build and publish home app
         uses: ./.github/actions/build-and-publish-client-home
         with:
@@ -48,5 +51,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish client user mobile
+      - name: Publish clients
         uses: ./.github/actions/publish-client-user-mobile

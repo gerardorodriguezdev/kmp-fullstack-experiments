@@ -1,0 +1,9 @@
+name: Build client water level sensor
+
+runs:
+  using: composite
+  steps:
+    - name: Build hex
+      shell: bash
+      run: |
+        pio run -e main
